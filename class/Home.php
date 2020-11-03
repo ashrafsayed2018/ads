@@ -21,16 +21,23 @@ class Home extends Core{
 	private function login(){
 		$this->data['error'] = array();
 		if($this->formSubmit('login')){
-			$email = $this->formValue('email',true);
-			$password = $this->formValue('password',true);
-			$user = $this->query("SELECT * FROM `users` WHERE `email`='$email' AND `password`='$password'");
-			if($user->num_rows > 0){
-				$userData = $user->fetch_assoc();
+			$email = $this->formValue('email');
+			$password = $this->formValue('password');
+			$query = ("SELECT * FROM `users` WHERE `email`='$email' AND `password`='$password'");
+			$user = $this->conn->prepare($query);
+			$user->execute();
+			
+			if($user->rowCount() > 0){
+				$userData = $user->fetch(PDO::FETCH_ASSOC);
 				$_SESSION['email'] = $userData['email'];
-				$this->redirect('/dashboard',true);
+				
+				 $this->redirect('/dashboard',true);
+
 			}
-			else
-				$this->data['error'][] = 'Invalid Login !';
+			else {
+				$this->data['error'][] = 'هناك خظاء في تسجيل الدخول ';
+			}
+				
 		}
 	}
 
@@ -41,21 +48,34 @@ class Home extends Core{
 			$email = $this->formValue('email',true);
 			$password = $this->formValue('password',true);
 			$cpassword = $this->formValue('cpassword',true);
-			if($password!=$cpassword)
-				$this->data['error'][] = 'Password does not matched !';
-			if($this->query("SELECT * FROM `users` WHERE `email`='$email'")->num_rows > 0)
-				$this->data['error'][] = 'Account with this email already exists !';
+			if($password != $cpassword)  {
+				$this->data['error'][] = 'الرقم السري غير متطابق';
+				return ($this->data['error']);
+			}	
+			$query = "SELECT * FROM `users` WHERE `name` = '$name' AND `email`='$email' ";
+			$stmt = $this->conn->prepare($query);
+			$stmt->execute();
+
+			if($stmt->rowCount() > 0) {
+				$this->data['error'][] = 'هذا الايميل او اسم المستخدم  مستخدم بالفعل';
+				return ($this->data['error']);
+			
+
+			}
 			if(empty($this->data['error'])){
-				if($this->query("INSERT INTO `users` SET `email`='$email',`password`='$password',`name`='$name'")===true){
+				$query = "INSERT INTO `users` SET `email`='$email',`password`='$password',`name`='$name'";
+				$stmt = $this->conn->prepare($query);
+				$stmt->execute();
+				
 					$_SESSION['email'] = $email;
-					$this->redirect('/dashboard',true);
-				}
+					$this->redirect('/dashboard',true);	
+				
 			}
 		}
 	}
 
 	private function logout(){
-		if($this->formValue('logout')=='1'){
+		if($this->formValue('logout') == '1'){
 			session_destroy();
 			$this->redirect('/',true);
 		}

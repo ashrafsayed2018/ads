@@ -20,27 +20,38 @@ class View extends Core{
 			$this->viewAd(explode('/',$this->param));
 		else
 			$this->redirect('/error404',true);
+			
 	}
 
 	public function getCat($id){
-		$query = $this->query("SELECT `name` FROM `category` WHERE `id`='$id'")->fetch_assoc();
-		return $query['name'];
+		$query = "SELECT `name` FROM `category` WHERE `id`='$id'";
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute();
+		$results = $stmt->fetch(PDO::FETCH_ASSOC);
+		return $results['name'];
 	}
 
 	public function incView($id){
 		if(!isset($_SESSION['view'.$id])){
-			if($this->query("SELECT `id` FROM `ads` WHERE `status`='1' AND `id`='$id'")->num_rows > 0){
+			$query = "SELECT `id` FROM `ads` WHERE `status`='1' AND `id`='$id'";
+			$stmt = $this->conn->prepare($query);
+			$stmt->execute();
+			if($stmt->rowCount() > 0){
 				$_SESSION['view'.$id] = 'v'.$id;
-				$this->query("UPDATE `ads` SET `views`=`views`+1 WHERE `id`='$id'");
+				$query = "UPDATE `ads` SET `views`=`views`+1 WHERE `id`='$id'";
+				$stmt = $this->conn->prepare($query);
+				$stmt->execute();
 			}
 		}
 	}
 
 	private function viewAd($params = array()){
-			$id = $this->escape($params[0]);
-			$query = $this->query("SELECT * FROM `ads` WHERE `id`='$id'");
-			if($query->num_rows>0)
-				$this->data['ad'] = $query->fetch_assoc();
+			$id = $params[0];
+			$query = "SELECT * FROM `ads` WHERE `id`='$id'";
+			$stmt = $this->conn->prepare($query);
+			$stmt->execute();
+			if($stmt->rowCount() >0)
+				$this->data['ad'] = $stmt->fetch(PDO::FETCH_ASSOC);
 			else
 				$this->redirect('/',true);
 	}

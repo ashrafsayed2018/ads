@@ -5,10 +5,11 @@
 			<div class="head-title"><?php echo $ob->setTitle();?></div>
 			<div class="list-type-holder"> 
 				<ul>
-					<li><span>SORT BY :</span></li>
-					<li><a href="?orderby=date" <?php echo (!isset($_GET['orderby']) || $_GET['orderby']=='date') ? 'class="active"' : '' ;?>>DATE</a></li>
-					<li><a href="?orderby=title" <?php echo (isset($_GET['orderby']) && $_GET['orderby']=='title') ? 'class="active"' : '' ;?>>TITLE</a></li>
-					<li><a href="?orderby=price" <?php echo (isset($_GET['orderby']) && $_GET['orderby']=='price') ? 'class="active"' : '' ;?>>PRICE</a></li>
+				
+					<li><a href="?orderby=date" <?php echo (!isset($_GET['orderby']) || $_GET['orderby']=='date') ? 'class="active"' : '' ;?>>التاريخ</a></li>
+					<li><a href="?orderby=title" <?php echo (isset($_GET['orderby']) && $_GET['orderby']=='title') ? 'class="active"' : '' ;?>>العنوان</a></li>
+					<li><a href="?orderby=price" <?php echo (isset($_GET['orderby']) && $_GET['orderby']=='price') ? 'class="active"' : '' ;?>>السعر</a></li>
+					<li><span>رتب حسب</span></li>
 				</ul>
 			</div>
 			<div class="ads-wrapper-container">
@@ -17,7 +18,7 @@
 					<?php
 					if(!empty($ob->display())){
 						$query = $ob->display();
-						while($ads = $query->fetch_assoc()){
+						while($ads = $query->fetch(PDO::FETCH_ASSOC)){
 							$thumb = json_decode($ads['images'])[0];
 							echo '
 								<div class="ad-container ad-hidden">
@@ -36,7 +37,7 @@
 						}
 					}
 					else{
-						echo '<h3 style="color:#66a80f;">No Data Found !</h3>';
+						echo '<h3 style="color:#66a80f;">لا توجد اعلانات لهذا البحث </h3>';
 					}
 				?>
 

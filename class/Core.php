@@ -1,19 +1,24 @@
 <?php
 class Core{
-	private $conn;
+	public $conn;
 	public $sitename;
 	function __construct(){
 		require_once('init.php');
-		$conn = new mysqli($db_host, $db_username, $db_password, $db_name);
-		if($conn->connect_error) {
-		    die("Connection failed: " . $conn->connect_error);
-		} 
+		try {
+			$conn = new PDO("mysql:host=$db_host;dbname=$db_name", $db_username, $db_password,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8") );
+			
+
+			// set the PDO error mode to exception
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		  } catch(PDOException $e) {
+			echo "Connection failed: " . $e->getMessage();
+		  }
 		$this->conn = $conn;
 		$this->sitename = $sitename;
 	}
 
 	function __destruct(){
-		$this->conn->close();
+		$this->conn = null;
 	}
 
 	public function query($query){
@@ -22,13 +27,13 @@ class Core{
 	public function sqlError(){
 		return $this->conn->error;
 	}
-
+ // method to load the cities in the select box 
 	public function loadCities(){
 		$json = json_decode(file_get_contents('assets/cities.json'));
 		foreach ($json as $key => $value) {
 			echo '<optgroup label="'.$key.'" value="'.$key.'">';
 				foreach ($value as $city) {
-					if(isset($this->data['ad']['location']) && $this->data['ad']['location']==$city)
+					if(isset($this->data['ad']['location']) && $this->data['ad']['location']== $city)
 						echo '<option value="'.$city.'" selected>'.$city.'</option>';
 					else
 						echo '<option value="'.$city.'">'.$city.'</option>';
@@ -36,54 +41,64 @@ class Core{
 			echo '</optgroup>';
 		}
 	}
-
+	// method th load the latest ads 
 	public function latestAd(){
-		$query = $this->query("SELECT * FROM `ads` WHERE `status`='1' ORDER BY `id` DESC LIMIT 20");
-		return ($query->num_rows>0)?$query:'';
-	}
+		$query = "SELECT * FROM `ads` WHERE `status`='1' ORDER BY `id` DESC LIMIT 20";
 
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute();
+		return ($stmt->rowCount() > 0)? $stmt : '';
+	}
+   // METHOD TO GET ALL CATEGORIES
 	public function getCategories(){
-		$cat = $this->query("SELECT * FROM `category`");
+		$query = "SELECT * FROM `category`";
+		$cat = $this->conn->prepare($query);
+		$cat->execute();
 		return $cat;
 	}
-
+   // METHOD TO COUNT ALL ADS IN A SPECIFIC CATEGORY
 	public function getAdCount($id){
-		$id = $this->escape($id);
-		$cat = $this->query("SELECT `id` FROM `ads` WHERE `cat_id`='$id' AND `status`='1'");
-			return $cat->num_rows;
-	}
 
+		$stmt = $this->conn->prepare("SELECT `id` FROM `ads` WHERE `cat_id`='$id' AND `status`='1'");
+		$stmt->execute();
+		return $stmt->rowCount();
+
+	}
+  // MEHTOD TO  RETURN THE CATEGORY NAME DEPENDING ON IT'S ID
 	public function cat_id2name($id){
-		$id = $this->escape($id);
-		$cat = $this->query("SELECT `name` FROM `category` WHERE `id`='$id'");
-		if($cat->num_rows > 0){
-			$cat = $cat->fetch_assoc();
+		$query = "SELECT `name` FROM `category` WHERE `id`='$id'";
+
+		$cat = $this->conn->prepare($query);
+		$cat->execute();
+		if($cat->rowCount() > 0){
+			$cat = $cat->fetch(PDO::FETCH_ASSOC);
 			return $cat['name'];
 		}
 	}
-
+  // METHOD OT REURN THE USER NAME DEPENDING ON THE USER ID
 	public function user_id2name($id){
-		$id = $this->escape($id);
-		$cat = $this->query("SELECT `name` FROM `users` WHERE `id`='$id'");
-		if($cat->num_rows > 0){
-			$cat = $cat->fetch_assoc();
+
+		$query= "SELECT `name` FROM `users` WHERE `id`='$id'";
+		
+		$cat = $this->conn->prepare($query);
+		$cat->execute();
+		if($cat->rowCount() > 0){
+			$cat = $cat->fetch(PDO::FETCH_ASSOC);
 			return $cat['name'];
 		}
 	}
-
+      // MEHTOD TO RERUN THE USER PROFILE IMAGE 
 	public function user2dp($id){
-		$id = $this->escape($id);
-		$user = $this->query("SELECT `dp` FROM `users` WHERE `id`='$id'");
-		if($user->num_rows > 0){
-			$user = $user->fetch_assoc();
+
+		$query = "SELECT `dp` FROM `users` WHERE `id`='$id'";
+		$user = $this->conn->prepare($query);
+		$user->execute();
+		if($user->rowCount() > 0){
+			$user = $user->fetch(PDO::FETCH_ASSOC);
 			return $user['dp'];
 		}
 	}
-
-	public function escape($str){
-		return $this->conn->real_escape_string($str);
-	}
-
+  // METHOD TO GIVE THE USER AUTHANITCATION DEPENDING ON THER SESSION EMAIL
 	public function auth(){
 		if(!isset($_SESSION['email']))
 			$this->redirect('/',true);
@@ -103,13 +118,14 @@ class Core{
         }
     }
 
-    public function formValue($item,$escape=false) {
+    public function formValue($item) {
         if(isset($_POST[$item])) {
-            return ($escape) ? $this->escape($_POST[$item]) : $_POST[$item];
+            return  $_POST[$item];
         } else if(isset($_GET[$item])) {
-            return ($escape) ? $this->escape($_GET[$item]) : $_GET[$item];
+            return  $_GET[$item];
         }
-        return '';
+		return '';
+		
     }
 
     public static function redirect($url,$php=false){

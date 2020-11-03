@@ -37,9 +37,9 @@ class Lists extends Core{
 		$params = explode('/',$this->param);
 		$title ='';
 		if($url == 'list')
-			$title = $this->cat_id2name($params[0]).' ADs';
+			$title = ' اعلانات '. $this->cat_id2name($params[0]);
 		else if($url == 'all-ads')
-			$title = $this->user_id2name($params[0]).'\'s ADs';
+			$title = ' اعلانات ' . $this->user_id2name($params[0]);
 		else if($url == 'search')
 			$title = 'Search Result';
 		return $title;
@@ -55,28 +55,32 @@ class Lists extends Core{
 
 	private function databycat(){
 		$param = explode('/',$this->param);
-		$cat = $this->escape($param[0]);
+		$cat = $param[0];
 		if(isset($_GET['orderby']) && $this->formValue('orderby')=='title')
 			$sql = "SELECT * FROM `ads` WHERE `cat_id`='$cat' AND `status`='1' ORDER BY `title`";
 		else if(isset($_GET['orderby']) && $this->formValue('orderby')=='price')
 			$sql = "SELECT * FROM `ads` WHERE `cat_id`='$cat' AND `status`='1' ORDER BY `price`";
 		else
 			$sql = "SELECT * FROM `ads` WHERE `cat_id`='$cat' AND `status`='1' ORDER BY `dt`";
-		$query = $this->query($sql);
-		return ($query->num_rows > 0)? $query : '';
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute();
+	
+		return ($stmt->rowCount() > 0)? $stmt : '';
 	}
 
 	private function databyseller(){
 		$param = explode('/',$this->param);
-		$cat = $this->escape($param[0]);
+		$cat = $param[0];
 		if(isset($_GET['orderby']) && $this->formValue('orderby')=='title')
 			$sql = "SELECT * FROM `ads` WHERE `user_id`='$cat' AND `status`='1' ORDER BY `title`";
 		else if(isset($_GET['orderby']) && $this->formValue('orderby')=='price')
 			$sql = "SELECT * FROM `ads` WHERE `user_id`='$cat' AND `status`='1' ORDER BY `price`";
 		else
 			$sql = "SELECT * FROM `ads` WHERE `user_id`='$cat' AND `status`='1' ORDER BY `dt`";
-		$query = $this->query($sql);
-		return ($query->num_rows > 0)? $query : '';
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute();
+	
+		return ($stmt->rowCount() > 0)? $stmt : '';
 	}
 
 	private function databysearch(){

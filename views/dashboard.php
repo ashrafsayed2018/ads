@@ -22,37 +22,43 @@
 							?>
 								<form action="" method="POST" enctype="multipart/form-data" class="dash-form">
 									<div class="group">
-										<div class="label">Email </div>
+										
 										<input type="email" name="email" placeholder="Email" value="<?php echo $ob->data['user']['email'];?>" class="input">
+										<div class="label">الايميل  </div>
 									</div>
 									<div class="group">
-										<div class="label">Name </div>
+									
 										<input type="text" name="name" placeholder="Name" value="<?php echo $ob->data['user']['name'];?>" class="input">
+										<div class="label">الاسم </div>
 									</div>
-									Leave the fields blank to keep unchanged.
+									يمكنك ترك الحقول فارغه اذا اردت عدم تغييرها
 									<div class="group">
-										<span class="label">Profile Picture</span>
+										
 										<input type="file" name="picture" accept="image/*" placeholder="Picture" class="input" style="font-size:11px;border-bottom:0px;">
+										<span class="label">صورة الملف الشخصي</span>
 									</div>
 									<div class="group">
-										<div class="label">Old Password </div>
-										<input type="password" name="opassword" placeholder="Old Password" class="input">
+										
+										<input type="password" name="opassword" placeholder="الرقم السري الحالي" class="input">
+										<div class="label">  الرقم السري الحالي</div>
 									</div>
 									<div class="group">
-										<div class="label">New Password </div>
-										<input type="password" name="npassword" placeholder="New Password" class="input">
+										
+										<input type="password" name="npassword" placeholder="الرقم السري الجديد" class="input">
+										<div class="label">الرقم السري الجديد </div>
 									</div>
 									<div class="group">
-										<div class="label">Confirm Password </div>
-										<input type="password" name="cpassword" placeholder="Confirm Password" class="input">
+										
+										<input type="password" name="cpassword" placeholder="تأكيد الرقم السري" class="input">
+										<div class="label">تأكيد الرقم السري </div>
 									</div>
-									<button type="submit">Update</button>
+									<button type="submit">تحديث</button>
 								</form>
 							<?php
 							}
 							else if(isset($_GET['ad-edit'])){
-								$spec = $ob->loadSpecification();
-								$feature = $ob->loadFeature();
+								// $spec = $ob->loadSpecification();
+								// $feature = $ob->loadFeature();
 							?>
 								<form action="" method="POST" class="dash-form" enctype="multipart/form-data">
 
@@ -64,17 +70,18 @@
 									}
 								?>
 
-									<strong>Ad Details : </strong><br>
+									<strong>تفاصيل الاعلان : </strong><br>
 									<div class="group">
-										<div class="label">Title </div>
-										<input type="text" name="title" placeholder="Title" value="<?php echo (isset($ob->data['ad']['title']))?$ob->data['ad']['title']:'';?>" class="input" required>
+										<input type="text" name="title" placeholder="العنوان" value="<?php echo (isset($ob->data['ad']['title']))?$ob->data['ad']['title']:'';?>" class="input" required>
+										<div class="label">العنوان </div>
+
 									</div>
 									<div class="group">
-										<div class="label">Category </div>
+										
 										<select id="category" name="category" class="input" style="font-size:14.1px;">
 											<?php
 												$cate = $ob->getCategories();
-												while($category = $cate->fetch_assoc()){
+												while($category = $cate->fetch(PDO::FETCH_ASSOC)){
 													if(isset($ob->data['ad']['cat_id']) && $category['id']==$ob->data['ad']['cat_id'])
 														echo '<option value="'.$category['id'].'" selected>'.$category['name'].'</option>';
 													else
@@ -82,101 +89,108 @@
 												}
 											?>
 										</select>
+										<div class="label">الاقسام </div>
 									</div>
 
-									<div>
-										Specifications : <br>
+									<!-- <div>
+										المواصفات  <br>
 										<div id="specification"></div>
 									</div>
 
 
 									<div style="padding:10px;">
-										Features : <br>
+										المزايا <br>
 										<div id="features"></div>
+									</div> -->
+									<div class="group">
+										
+										<input type="number" name="price" placeholder="السعر" value="<?php echo (isset($ob->data['ad']['price']))?$ob->data['ad']['price']:'';?>" step="10" class="input" required>
+										<span class="label">السعر</span>
+										
 									</div>
 									<div class="group">
-										<div class="label">Price </div>
-										<input type="number" name="price" placeholder="Price" value="<?php echo (isset($ob->data['ad']['price']))?$ob->data['ad']['price']:'';?>" step="10" class="input" required>
+										<input type="file" name="images[]" placeholder="الصور" class="input" style="font-size:11px;border-bottom:0px;" multiple="multiple">
+										<span class="label">الصور</span>
+
+									</div>
+									<textarea name="description" placeholder="الوصف" class="input"><?php echo (isset($ob->data['ad']['description']))?$ob->data['ad']['description']:'';?></textarea>
+									<strong>تفاصيل البائع </strong><br>
+									<div class="group">
+										
+										<input type="text" name="mobile" value="<?php echo (isset($ob->data['ad']['mobile']))?$ob->data['ad']['mobile']:'';?>" placeholder="رقم الموبايل" class="input" required>
+										<div class="label">رقم الموبايل </div>
 									</div>
 									<div class="group">
-										<span class="label">Images</span>
-										<input type="file" name="images[]" placeholder="Images" class="input" style="font-size:11px;border-bottom:0px;" multiple="multiple">
-									</div>
-									<textarea name="description" placeholder="Description" class="input"><?php echo (isset($ob->data['ad']['description']))?$ob->data['ad']['description']:'';?></textarea>
-									<strong>Seller Details : </strong><br>
-									<div class="group">
-										<div class="label">Mobile </div>
-										<input type="text" name="mobile" value="<?php echo (isset($ob->data['ad']['mobile']))?$ob->data['ad']['mobile']:'';?>" placeholder="Mobile" class="input" required>
+										
+										<input type="text" name="address" value="<?php echo (isset($ob->data['ad']['address']))?$ob->data['ad']['address']:'';?>" placeholder="العنوان" class="input" required>
+										<div class="label">العنوان </div>
 									</div>
 									<div class="group">
-										<div class="label">Address </div>
-										<input type="text" name="address" value="<?php echo (isset($ob->data['ad']['address']))?$ob->data['ad']['address']:'';?>"" placeholder="Address" class="input" required>
-									</div>
-									<div class="group">
-										<div class="label">Location </div>
+									
 										<select name="location" class="input" style="font-size:14.1px;">
 											<?php
 												$ob->loadCities();
 											?>
 										</select>
+										<div class="label">المنطقه </div>
 									</div>
-									<button type="submit"><?php echo ($_GET['ad-edit']==0)? 'Post' : 'Update';?> AD</button>
+									<button type="submit"><?php echo ($_GET['ad-edit']== 0)? 'نشر' : 'تحديث';?> الاعلان</button>
 								</form>
 
 <script type="text/javascript">
 	$(document).ready(function(){
 
-		var specification = '<?php echo (!empty($spec))?json_encode($spec):'';?>';
-		var feature = '<?php echo (!empty($spec))?json_encode($feature):'';?>';
-		feature = $.parseJSON(feature);
-		specification = $.parseJSON(specification);
-		$('#category').on('change',function(){
-			loadfeature();
-			loadspec();
-		});
+		// var specification = '<?php echo (!empty($spec))?json_encode($spec):'';?>';
+		// var feature = '<?php echo (!empty($spec))?json_encode($feature):'';?>';
+		// feature = $.parseJSON(feature);
+		// specification = $.parseJSON(specification);
+		// $('#category').on('change',function(){
+		// 	loadfeature();
+		// 	loadspec();
+		// });
 
-		<?php 
-		if($_GET['ad-edit']!='0'){
-		?>
-		var edit = 1;
-		var tempfeature = $.parseJSON('<?php echo (isset($ob->data['ad']['feature']))?$ob->data['ad']['feature']:'';?>');
-		var temp = $.parseJSON('<?php echo (isset($ob->data['ad']['specification']))?$ob->data['ad']['specification']:'';?>');
-		<?php
-		}
-		else{
-		?>
-		var edit = 0;
-		<?php
-		}
-		?>
-		loadspec();
-		loadfeature();
-		function loadfeature(){
-			//console.log(tempfeature);
-			if(feature!=''){
-				category = $('#category option:selected').html();
-				$('#features').html('');
-				$.each(feature[category], function (key,val) {
-					if(edit==1 && jQuery.inArray(val, tempfeature) !== -1)
-						$('#features').append('<input type="checkbox" name="features[]" value="'+val+'" checked> '+val+'&nbsp;&nbsp;');
-					else
-						$('#features').append('<input type="checkbox" name="features[]" value="'+val+'"> '+val+'&nbsp;&nbsp;');
-				});
-			}
-		}
-		function loadspec(){
-			//console.log(tempfeature);
-			if(specification!=''){
-				category = $('#category option:selected').html();
-				$('#specification').html('');
-				$.each(specification[category], function (key,val) {
-					if(edit==1 && temp[val])
-						$('#specification').append('<div class="group"><div class="label">'+val+' </div><input type="text" name="spec['+val+']" value="'+temp[val]+'" class="input"></div>');
-					else
-						$('#specification').append('<div class="group"><div class="label">'+val+' </div><input type="text" name="spec['+val+']" class="input"></div>');
-				});
-			}
-		}
+		// <?php 
+		// if($_GET['ad-edit'] !='0'){
+		// ?>
+		// var edit = 1;
+		// var tempfeature = $.parseJSON('<?php echo (isset($ob->data['ad']['feature']))?$ob->data['ad']['feature']:'';?>');
+		// var temp = $.parseJSON('<?php echo (isset($ob->data['ad']['specification']))?$ob->data['ad']['specification']:'';?>');
+		// <?php
+		// }
+		// else{
+		// ?>
+		// var edit = 0;
+		// <?php
+		// }
+		// ?>
+		// loadspec();
+		// loadfeature();
+		// function loadfeature(){
+		// 	//console.log(tempfeature);
+		// 	if(feature!=''){
+		// 		category = $('#category option:selected').html();
+		// 		$('#features').html('');
+		// 		$.each(feature[category], function (key,val) {
+		// 			if(edit==1 && jQuery.inArray(val, tempfeature) !== -1)
+		// 				$('#features').append('<input type="checkbox" name="features[]" value="'+val+'" checked> '+val+'&nbsp;&nbsp;');
+		// 			else
+		// 				$('#features').append('<input type="checkbox" name="features[]" value="'+val+'"> '+val+'&nbsp;&nbsp;');
+		// 		});
+		// 	}
+		// }
+		// function loadspec(){
+		// 	//console.log(tempfeature);
+		// 	if(specification!=''){
+		// 		category = $('#category option:selected').html();
+		// 		$('#specification').html('');
+		// 		$.each(specification[category], function (key,val) {
+		// 			if(edit==1 && temp[val])
+		// 				$('#specification').append('<div class="group"><input type="text" name="spec['+val+']" value="'+temp[val]+'" class="input"><div class="label">'+val+' </div></div>');
+		// 			else
+		// 				$('#specification').append('<div class="group"><input type="text" name="spec['+val+']" class="input"><div class="label">'+val+' </div></div>');
+		// 		});
+		// 	}
+		// }
 		
 	});
 </script>
@@ -187,23 +201,23 @@
 								if($ob->data['user']['admin']==1){
 							?>
 							<center>
-								<a href="?dashboard=1&list=pending"><div class="dashbox">Pending [<?php echo $ob->getCount('0');?>]</div></a>
-								<a href="?dashboard=1&list=approved"><div class="dashbox">Approved [<?php echo $ob->getCount();?>]</div></a>
-								<a href="?dashboard"><div class="dashbox">Owned</div></a>
+								<a href="?dashboard=1&list=pending"><div class="dashbox">تحت المراجعه [<?php echo $ob->getCount('0');?>]</div></a>
+								<a href="?dashboard=1&list=approved"><div class="dashbox">تم الموافقه عليه [<?php echo $ob->getCount();?>]</div></a>
+								<a href="?dashboard"><div class="dashbox">المالك</div></a>
 							</center>
 							<?php
 								}
 							?>
 							<table class="ad-list" cellspacing="0">
 								<tr>
-									<th>Id</th>
-									<th>Title</th>
-									<th>Status</th>
+									<th>مسلسل</th>
+									<th>العنوان</th>
+									<th>الحاله</th>
 									<th>Action</th>
 								</tr>
 							<?php
 								if($ob->data['list']!=''){
-									while($ads = $ob->data['list']->fetch_assoc()){
+									while($ads = $ob->data['list']->fetch(PDO::FETCH_ASSOC)){
 										$status = ($ads['status']==0)?'Pending':'Active';
 										echo '
 										<tr>
@@ -211,7 +225,8 @@
 										<td style="width:50%">'.$ads['title'].'</td>
 										<td style="width:5%">'.$status.'</td>
 										<td style="width:40%"> ';
-										if($ob->data['user']['admin']==1 && $_GET['list']=='pending')
+										 if(isset($_GET['list'])) {
+										if($ob->data['user']['admin'] == 1 && $_GET['list'] =='pending')
 											echo '<a href="/view/'.$ads['id'].'/'.urlencode($ads['title']).'">View ad</a> <a href="?ad-approve='.$ads['id'].'">Approve</a> <a href="?delete-ad='.$ads['id'].'">Decline</a>';
 										else
 										echo '<a href="/view/'.$ads['id'].'/'.urlencode($ads['title']).'">View ad</a> <a href="?ad-edit='.$ads['id'].'">Edit ad</a> <a href="?delete-ad='.$ads['id'].'">Delete</a>';
@@ -219,12 +234,13 @@
 										</td>
 										</tr>
 										';
+										 }
 									}
 								}
 								else{
 									echo '
 									<tr>
-									<td colspan="4" style="width:100%">No data found! Post a ad first.</td>
+									<td colspan="4" style="width:100%">لا  توجد اعلانات تحت المراجعه</td>
 									</tr>';
 								}
 							?>
@@ -239,9 +255,9 @@
 							<div class="dp"><img src="<?php echo $ob->data['user']['dp'];?>"></div>
 							<div class="seller-name"><?php echo $ob->data['user']['name'];?></div>
 							<ul class="menu">
-								<li><a href="?dashboard">Dashboard</a></li>
-								<li><a href="?ad-edit=0">Post New Ad</a></li>
-								<li><a href="?edit-profile=1">Edit Profile</a></li>
+								<li><a href="?dashboard">لوحة التحكم</a></li>
+								<li><a href="?ad-edit=0">عمل اعلان جديد</a></li>
+								<li><a href="?edit-profile=1">تحديث الملف الشخصي</a></li>
 							</ul>
 						</div>
 						
