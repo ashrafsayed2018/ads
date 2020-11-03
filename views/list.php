@@ -1,38 +1,48 @@
-<?php require 'header.php'; ?>
+<?php require_once 'header.php'; ?>
 
-	<div class="content" style="padding:0;margin:0;">
-		<div id="container" style="padding-top: 100px;">
-			<div class="head-title"><?php echo $ob->setTitle();?></div>
-			<div class="list-type-holder"> 
-				<ul>
-				
-					<li><a href="?orderby=date" <?php echo (!isset($_GET['orderby']) || $_GET['orderby']=='date') ? 'class="active"' : '' ;?>>التاريخ</a></li>
-					<li><a href="?orderby=title" <?php echo (isset($_GET['orderby']) && $_GET['orderby']=='title') ? 'class="active"' : '' ;?>>العنوان</a></li>
-					<li><a href="?orderby=price" <?php echo (isset($_GET['orderby']) && $_GET['orderby']=='price') ? 'class="active"' : '' ;?>>السعر</a></li>
-					<li><span>رتب حسب</span></li>
-				</ul>
-			</div>
-			<div class="ads-wrapper-container">
-				<div class="ads-wrapper">
-
+<div class="container">
+    <div class="row">
+         <div class="col">
+             <ul class="list-inline bg-secondary pt-2 pb-2">
+                <li class="list-inline-item"><a href="?orderby=date" <?php echo (!isset($_GET['orderby']) || $_GET['orderby']=='date') ? 'class="active"' : '' ;?>>التاريخ</a></li>
+				<li class="list-inline-item"><a href="?orderby=title" <?php echo (isset($_GET['orderby']) && $_GET['orderby']=='title') ? 'class="active"' : '' ;?>>العنوان</a></li>
+				<li class="list-inline-item"><a href="?orderby=price" <?php echo (isset($_GET['orderby']) && $_GET['orderby']=='price') ? 'class="active"' : '' ;?>>السعر</a></li>
+				<li class="list-inline-item"><span>رتب حسب</span></li>
+             </ul>
+         </div>
+    </div>
+           <div class="row">
 					<?php
 					if(!empty($ob->display())){
 						$query = $ob->display();
 						while($ads = $query->fetch(PDO::FETCH_ASSOC)){
 							$thumb = json_decode($ads['images'])[0];
 							echo '
-								<div class="ad-container ad-hidden">
-									<div class="thumb">
-										<div class="img">
-											<a href="/view/'.$ads['id'].'/'.urlencode($ads['title']).'"><img src="'.$thumb.'"></a>
-										</div>
-										<a href="/all-ads/'.$ads['user_id'].'"><img src="'.$ob->user2dp($ads['user_id']).'" class="seller-dp"></a>
-									</div>
-									<div class="type"> <a href="/list/'.$ads['cat_id'].'">'.$ob->cat_id2name($ads['cat_id']).'</a></div>
-									<a href="/view/'.$ads['id'].'/'.urlencode($ads['title']).'"><div class="title">'.$ads['title'].'</div></a>
-									<div class="address"><img src="/assets/icons/location.svg" class="icon-small"> '.$ads['address'].' </div>
-									<div class="price">₹​ '. number_format($ads['price'],2,'.',',') .' /-</div>
-								</div>
+                            <div class="col-12 col-md-4 ad-hidden">
+                            <div class="ad-container">
+                              <div class="thumb">
+                                <div class="img">
+                                  <a href="/view/'.$ads['id'].'/'.urlencode($ads['title']).'">
+                                      <img src="'.$thumb.'">
+                                  </a>
+                                </div>
+                                <a href="/all-ads/'.$ads['user_id'].'">
+                                  <img src="'.$ob->user2dp($ads['user_id']).'" class="seller-dp">
+                                </a>
+                              </div>
+                              <div class="type"> 
+                                  <a href="/list/'.$ads['cat_id'].'">'.$ob->cat_id2name($ads['cat_id']).'</a>
+                              </div>
+                              <a href="/view/'.$ads['id'].'/'.urlencode($ads['title']).'">
+                                  <div class="title">'.substr($ads['title'],0,20).'</div>
+                              </a>
+                              <div class="description">'.substr($ads['description'],0,50). ' ...</div>
+                              <div class="date-like d-flex justify-content-between align-content-center">
+                                <div class="date">'.$ads['dt'].'</div>
+                                <div class="like"> <i class="fa fa-heart"></i></div>
+                              </div>
+                            </div>
+                        </div>
 							';
 						}
 					}
@@ -40,11 +50,8 @@
 						echo '<h3 style="color:#66a80f;">لا توجد اعلانات لهذا البحث </h3>';
 					}
 				?>
-
-				</div>
-			</div>
-		</div>
-	</div>
+        </div>
+</div>
 
 <?php require 'footer.php'; ?>
 

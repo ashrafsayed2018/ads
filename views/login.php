@@ -27,7 +27,7 @@
 						<?php
 							if(isset($ob->data['error']) && !empty($ob->data['error'])){
 								foreach ($ob->data['error'] as $error) {
-									echo '<div style="color:#FFF;padding:5px">ERROR: '.$error.'</div>';
+									echo '<div class="text-danger text-center">: '.$error.'</div>';
 								}
 							}
 						?>

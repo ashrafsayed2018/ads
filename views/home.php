@@ -116,24 +116,6 @@
 						}
 					}
 				?>
-                    <!-- <div class="gallery-cell">
-                      <img src="https://raw.githubusercontent.com/rexxars/react-hexagon/HEAD/logo/react-hexagon.png" />
-                      <div class="feature-categoryLike d-flex justify-content-between">
-                           <div class="categoryName ">سيارات</div>
-                           <div class="like">
-                             <i class="fa fa-heart"></i>
-                           </div>
-                      </div>
-                      <div class="feature-ad-details ">
-                          <h4>افخم سياره في امبابه</h4>
-                          <p>افخم سياره في امبابه افخم سياره في امبابه افخم سياره في امبابه افخم سياره في امبابه افخم سياره</p>
-                      </div>
-                      <div class="feature-date-author d-flex justify-content-between">
-                           <div class="date">22-10-2020</div>
-                            <div class="author">اشرف سيد</div>
-                      </div>
-                    </div>
-                     -->
 
                 </div>
           </section>
@@ -146,11 +128,11 @@
                <h2 class="text-center">التصنيفات الرائجه </h2>
                <div class="row">
                <?php
-				$cat = $ob->getCategories();
-				if(!empty($cat)){
-					while($c = $cat->fetch(PDO::FETCH_ASSOC)){
-						echo '
-						
+                    $cat = $ob->getCategories();
+                    if(!empty($cat)){
+                      while($c = $cat->fetch(PDO::FETCH_ASSOC)){
+                        echo '
+                        
                             <div class="col-4 col-md-2">
                             <a href="/list/'.$c['id'].'">
                                 <div class="category" style="height: 10rem;">
@@ -160,13 +142,13 @@
                                     <p class="category-count text-center">'.$ob->getAdCount($c['id']).'</p>
                                 </div>
                                 </div>
-                            </a>
-                         </div>
-					
-						';
-					}
-				}
-			?>
+                              </a>
+                          </div>
+            
+                              ';
+                            }
+                          }
+                        ?>
                 
                 </div>
 

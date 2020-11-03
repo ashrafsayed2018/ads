@@ -6,12 +6,17 @@
 :root {
     --background : #40916c;
     --box-shadow : 1px 5px 4px rgb(218, 209, 209);
+    --dark-background: #394264;
+    --dark-background-hover: #50597b;
 }
 
 /* start the navbar  */
 
 .navbar-light .navbar-nav .nav-link:hover {
-    color: #fff!important;
+    color: rgb(14, 12, 12)!important;
+}
+.navbar-light .navbar-nav .nav-link[class*="btn-outline"]:hover {
+  color : #fff!important;
 }
 /* end the navbar  */
 /* start the site header */
@@ -173,8 +178,9 @@
 .category:hover {
     box-shadow: var(--box-shadow);
     transform: scaleX(1.25);
-    /* background-color :#40916c; */
-    /* color: #fff; */
+    background-color : var(--dark-background-hover);
+    color: #fff
+    
 
 }
 .category-img-top {
@@ -273,7 +279,7 @@
 /* end footer  */
 
 /* start login page  */
-.login-form,.register-form {
+.login-form,.register-form,.profile-form {
   position: relative;
   z-index: 1;
   background: #FFFFFF;
@@ -283,7 +289,12 @@
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-.login-form input, .register-form input {
+.profile-form {
+  min-width:100%!important;
+  margin: 0 auto 2rem auto;
+
+}
+.login-form input, .register-form input ,.profile-form input{
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
@@ -294,7 +305,7 @@
   box-sizing: border-box;
   font-size: 14px;
 }
-.login-form button , .register-form button{
+.login-form button , .register-form button, .profile-form button{
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
@@ -309,17 +320,20 @@
   cursor: pointer;
 }
 .login-form button:hover,.login-form button:active,.login-form button:focus,
-.register-form button:hover,.register-form button:active,.register-form button:focus{
+.register-form button:hover,.register-form button:active,.register-form button:focus,
+.profile-form button:focus{
   background: #43A047;
 }
 .login-form .message,
-.register-form .message {
+.register-form .message ,
+.profile-form .message{
   margin: 15px 0 0;
   color: #b3b3b3;
   font-size: 12px;
 }
 .login-form .message a,
-.register-form .message a {
+.register-form .message a ,
+.profile-form .message a{
   color: #4CAF50;
   text-decoration: none;
 }
@@ -331,17 +345,20 @@
 /*  user profile  */
 .profile {
   height: 400px;
+  position: relative;
+  box-shadow: var(--box-shadow);
 }
 .block {
   margin-bottom: 25px;
-  background: #394264;
+  background-color: #fff;
+  box-shadow: var(--box-shadow);
   border-radius: 5px;
 }
 
 .user-name {
     margin: 25px 0 16px;
     text-align: center;
-    color: #fff;
+    color: #444;
   }
 .profile-description {
     width: 100%;
@@ -349,17 +366,32 @@
     text-align: center;
   }
 .profile-options {
-      /* width: 400px */
-    position: relative;
-    left: 25px
+  position: absolute;
+  bottom: 30px;
+  right: 7%;
+  }
+  @media (max-width: 500px) {
+    .profile-options {
+      right: 17%;
+      }
+  }
+  @media (max-width: 670px) {
+    .profile-options {
+      right: 22%;
+      }
+  }
+  @media (min-width: 671px) and (max-width: 1200px) {
+    .profile-options {
+      right: -1%;
+      }
   }
 .profile-options li {
       border-left: 1px solid #1f253d;
-      background-color: #1f253d;
+      background-color: #fff;
 }
 .profile-options p {
         margin: 0;
-        color:#fff
+        color:#444
       }
       .profile-options a {
         display: block;					
@@ -372,6 +404,10 @@
         .profile-options a:hover {
           text-decoration: none;
           background: #50597b;
+       
+        }
+        .profile-options a:hover p {
+          color: #fff!important
         }
         .profile-options a:hover.comments .icon {
           color: #fcb150;
@@ -423,7 +459,7 @@
   }
   .scnd-font-color {
     display: inline-block;
-    color: #dedfe0!important;
+    color: #252a2e!important;
     margin-bottom: 1rem;
 	}
 

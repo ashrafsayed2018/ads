@@ -89,21 +89,41 @@ $ob->incView($ad['id']);
                     </div>
                 </div> -->
                 <div class="col-12 col-md-4">
-                <div class="profile block"> <!-- PROFILE (MIDDLE-CONTAINER) -->
-          
-                    <div class="profile-picture big-profile-picture clear">
-                        <img width="150px" alt="Anne Hathaway picture" src="<?php echo $ob->user2dp($ad['user_id']);?>" >
+                    <div class="profile block"> <!-- PROFILE (MIDDLE-CONTAINER) -->
+              
+                        <div class="profile-picture big-profile-picture clear">
+                            <img width="150px" alt="Anne Hathaway picture" src="<?php echo $ob->user2dp($ad['user_id']);?>" >
+                        </div>
+                        <h1 class="user-name"><?php echo $ob->user_id2name($ad['user_id']);?></h1>
+                        <div class="profile-description">
+                            <a href="/all-ads/<?php echo $ad['user_id']; ?>" class="scnd-font-color">عرض كل الاعلانات</a>
+                        </div>
+                        <ul class="profile-options horizontal-list">
+                            <li>
+                              <a class="comments" href="#40">
+                                <p><i class="fa fa-comment-o scnd-font-color"></i>  
+                                23
+                                </p>
+                              </a>
+                            </li>
+                            <li>
+                              <a class="views" href="#41">
+                                <p>
+                                  <I class="fa fa-eye scnd-font-color"></I> 
+                                  <?php echo $ad['views'];?>
+                                  </p>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="likes" href="#42">
+                                  <p>
+                                    <I class="fa fa-heart scnd-font-color">	</I>
+                                      49
+                                  </p>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <h1 class="user-name"><?php echo $ob->user_id2name($ad['user_id']);?></h1>
-                    <div class="profile-description">
-                        <a href="/all-ads/<?php echo $ad['user_id']; ?>" class="scnd-font-color">عرض كل الاعلانات</a>
-                    </div>
-                    <ul class="profile-options horizontal-list">
-                        <li><a class="comments" href="#40"><p><i class="fa fa-comment-o scnd-font-color"></i>  23</li></p></a>
-                        <li><a class="views" href="#41"><p><span class="fa fa-eye scnd-font-color"></span>  841</li></p></a>
-                        <li><a class="likes" href="#42"><p><span class="fa fa-heart scnd-font-color"></span>  49</li></p></a>
-                    </ul>
-                </div>
                 </div>
             
           </div>
