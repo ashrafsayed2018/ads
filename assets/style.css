@@ -364,6 +364,7 @@
     width: 100%;
     margin: 0 auto;
     text-align: center;
+    padding: 1rem;
   }
 .profile-options {
   position: absolute;

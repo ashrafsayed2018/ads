@@ -106,7 +106,7 @@ class Lists extends Core{
 			$sql = "SELECT * FROM `ads` WHERE $sql `cat_id`='$category' AND `location`='$location' AND `status`='1' ORDER BY `dt` DESC";
 
 		$query = $this->query($sql);
-		return ($query->num_rows > 0)? $query : '';
+		return ($query->rowCount() > 0)? $query : '';
 	}
 
 	private function getType(){
