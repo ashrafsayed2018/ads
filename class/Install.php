@@ -94,13 +94,13 @@ class Install{
 
 	private function init(){
 		echo 'Initializing.....<br>';
-$content = '<?php
-$db_host = \'localhost\';
-$db_username = \''.$_POST['mysql_username'].'\';
-$db_password = \''.$_POST['mysql_password'].'\';
-$db_name = \''.$this->db_name.'\';
-$sitename = \''.$_POST['sitename'].'\';
-?>';
+		$content = '<?php
+		$db_host = \'localhost\';
+		$db_username = \''.$_POST['mysql_username'].'\';
+		$db_password = \''.$_POST['mysql_password'].'\';
+		$db_name = \''.$this->db_name.'\';
+		$sitename = \''.$_POST['sitename'].'\';
+		?>';
 		file_put_contents('class/init.php', $content);
 
 		echo 'Successfully Installed .....<br>';

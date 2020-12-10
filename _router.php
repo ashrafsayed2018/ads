@@ -9,6 +9,12 @@ $ROUTE = array(
 	'list' => array('list.php','Lists'),
 	'all-ads' => array('list.php','Lists'),
 	'search' => array('list.php','Lists'),
-	'dashboard' => array('dashboard.php','Dashboard')
+	'dashboard' => array('dashboard.php','Dashboard'),
+
+	'activate' => array('activate.php','Activate'),
+	'code' => array('code.php','Code'),
+	'recover' => array('recover.php','Recover'),
+	 'reset' => array('reset.php','Reset')
+
 );
 ?>

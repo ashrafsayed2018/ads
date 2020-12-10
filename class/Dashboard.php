@@ -129,7 +129,7 @@ class Dashboard extends Core{
 			$mobile = $_POST['mobile'];
 			$address = $_POST['address'];
 			$location = $_POST['location'];
-			$specification = json_encode($_POST['spec']);
+		 	// $specification = json_encode($_POST['spec']);
 			$features = (isset($_POST['features'])) ? json_encode($_POST['features']) : json_encode(array());
 			$user_id = $user['id'];
 			$images = array();
@@ -152,7 +152,7 @@ class Dashboard extends Core{
 			}
 
 			$image = json_encode($images);
-			$query = "INSERT INTO `ads` SET `title`='$title', `cat_id`='$cat_id', `user_id`='$user_id', `price`='$price', `description`='$description', `mobile`='$mobile', `address`='$address', `location`='$location', `specification`='$specification', `feature`='$features', `images`='$image', `dt`='$dt'";
+			$query = "INSERT INTO `ads` SET `title`='$title', `cat_id`='$cat_id', `user_id`='$user_id', `price`='$price', `description`='$description', `mobile`='$mobile', `address`='$address', `location`='$location', `feature`='$features', `images`='$image', `dt`='$dt'";
 			$stmt = $this->conn->prepare($query);
 			if($stmt->execute())
 				$this->data['error'][] = 'تم اضافة الاعلان بنجاح وبانتظار المراجعه';
@@ -171,7 +171,7 @@ class Dashboard extends Core{
 				$mobile = $_POST['mobile'];
 				$address = $_POST['address'];
 				$location = $_POST['location'];
-				$specification = json_encode($_POST['spec']);
+		    	// $specification = json_encode($_POST['spec']);
 				$features = (isset($_POST['features'])) ?json_encode($_POST['features']) :json_encode(array());
 				$user_id = $user['id'];
 				$images = array();

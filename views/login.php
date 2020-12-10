@@ -3,21 +3,27 @@
 	
 	<div id="container">
 		<div class="row">
-            <div class="col">
+            <div class="col-lg-6" style="margin: 50px auto">
+
 					<?php
+
+						echo $ob->display_message();
+					
+						
 						if(isset($_GET['forget'])){
 							?>
-					<div class="heading">نسيت الرقم السري</div>
+					<div class="heading text-center" style="margin: 20px auto">الرجاء قم بتسجيل البريد الالكتروني المسجل في الموقع سابقا</div>
+					<?php 
+                  
+					?>
 					<form action="" method="POST">
 						<?php
-							if(isset($ob->data['error']) && !empty($ob->data['error'])){
-								foreach ($ob->data['error'] as $error) {
-									echo '<div style="color:#FFF;padding:5px">'.$error.'</div>';
-								}
-							}
+
+							$ob->display_message();
 						?>
-						<input class="input" type="email" name="email" value="" placeholder="Email">
-						<button type="submit" name="forget"> تغيير الرقم السري </button>
+						<input class="input form-control" type="email" name="email" value="" placeholder="Email">
+						<input type="hidden" name="token" value="<?php echo  $ob->token_generator();?>">
+						<button type="submit" class="btn btn-success" name="forget"> تغيير الرقم السري </button>
 					</form>
 							<?php
 						}
@@ -32,15 +38,9 @@
 							}
 						?>
                         <form class="login-form" action="" method="POST" class="mb-5">
-                        <?php
-							if(isset($ob->data['error']) && !empty($ob->data['error'])){
-								foreach ($ob->data['error'] as $error) {
-									echo '<div style="color:#FFF;padding:5px">ERROR: '.$error.'</div>';
-								}
-							}
-						?>
-                       <input class="input" type="text" name="email" value="" placeholder="البريد الالكتروني">
-						<input class="input" type="password" name="password" value="" placeholder="الرقم السري" required>
+                   
+                       <input class="input" type="text" name="email" value="<?php echo $ob->formValue('email');?>" placeholder="البريد الالكتروني">
+						<input class="input" type="password" name="password" value="<?php echo $ob->formValue('password');?>" placeholder="الرقم السري" required>
 						<a href="/login/?forget=1"> نسيت الرقم السري ؟ </a> <br><br>
 						<button type="submit" name="login"> دخول </button>
                         <p class="message">ليس لديك حساب ؟ <a href="/register">تسجيل حساب </a></p>

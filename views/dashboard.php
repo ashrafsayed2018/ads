@@ -134,7 +134,7 @@
 							<?php
 								if($ob->data['list']!=''){
 									while($ads = $ob->data['list']->fetch(PDO::FETCH_ASSOC)){
-										$status = ($ads['status']==0)?'Pending':'Active';
+										$status = ($ads['status']==0)?'تحت المراجعه':'مفعل';
 										echo '
 										<tr>
 										<td style="width:5%">'.$ads['id'].'</td>
@@ -143,9 +143,11 @@
 										<td style="width:40%"> ';
 										 if(isset($_GET['list'])) {
 										if($ob->data['user']['admin'] == 1 && $_GET['list'] =='pending')
-											echo '<a href="/view/'.$ads['id'].'/'.urlencode($ads['title']).'">View ad</a> <a href="?ad-approve='.$ads['id'].'">Approve</a> <a href="?delete-ad='.$ads['id'].'">Decline</a>';
+											echo '<a href="/view/'.$ads['id'].'/'.urlencode($ads['title']).'" class="btn btn-primary">عرض</a>
+											 <a href="?ad-approve='.$ads['id'].'" class="btn btn-success">قبول </a>
+											  <a href="?delete-ad='.$ads['id'].'" class="btn btn-danger">رفض</a>';
 										else
-										echo '<a href="/view/'.$ads['id'].'/'.urlencode($ads['title']).'" class="btn btn-primary text-light">View ad</a> <a href="?ad-edit='.$ads['id'].'" class="btn btn-success text-light">Edit ad</a> <a href="?delete-ad='.$ads['id'].'" class="btn btn-danger text-light">Delete</a>';
+										echo '<a href="/view/'.$ads['id'].'/'.urlencode($ads['title']).'" class="btn btn-primary text-light">عرض</a> <a href="?ad-edit='.$ads['id'].'" class="btn btn-success text-light">تعديل </a> <a href="?delete-ad='.$ads['id'].'" class="btn btn-danger text-light">حذف</a>';
 										echo '
 										</td>
 										</tr>

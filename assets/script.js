@@ -34,14 +34,29 @@ $(document).ready(function(){
             $(".slogans h2").addClass("slogan-h2-animation");
         }, 1000);
     });
+
+    // for an individual element
+    var adFeatureCarousel = document.querySelector("#adFeatureCarousel");
+
+    if(adFeatureCarousel) {
+
+        var flkty = new Flickity( '#adFeatureCarousel', {
+            contain: true,
+            pageDots: false,
+            wrapAround: true,
+            freeScroll: true,
+            autoPlay: 2000
+            });
+    } else {
+      console.log('no carousel');
+    }
 });
 
-// for an individual element
-    var flkty = new Flickity( '#adFeatureCarousel', {
-        contain: true,
-        pageDots: false,
-        wrapAround: true,
-        freeScroll: true,
-        autoPlay: 2000
-        });
+
+    
+    // if(adFeatureCarousel) {
+
+    
+        // }
+
 

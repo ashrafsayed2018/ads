@@ -3,19 +3,13 @@
 	<!-- <div class="landing-page"></div> -->
 	<div id="container">
 		<div class="row">
-			<div class="col">
+			<div class="col-lg-6" style="margin: 0 auto">
 				<div class="text-center text-success">تسجيل دخول</div>
+               
                     <div class="form">
-                        <form class="register-form">
-                        <?php
-                                            
-                                            
-                        if(isset($ob->data['error']) && empty($ob->data['error'])){
-                            foreach ($ob->data['error'] as $error) {
-                                echo '<div style="color:#FFF;padding:5px">ERROR: '. $error .'</div>';
-                            }
-                        }
-                    ?>
+                   
+                        <form class="register-form" method="POST">
+              
           
                             <input class="input" type="email" name="email" value="<?php echo $ob->formValue('email');?>" placeholder="البريد الالكتروني" required>
                      

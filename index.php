@@ -8,9 +8,13 @@ $param=null;
 if(empty($url[0]))
 	$index = '';
 else{
+
 	$index = rtrim($url[0], '/');
-	if(strpos($index, '/')!==false){
+	
+	if(strpos($index, '/') !== false){
+
 		list($index, $param) = explode('/',$index,2);
+		
 	}
 }
 
@@ -21,13 +25,14 @@ header("location: /install");
 if(array_key_exists($index, $ROUTE)){
 	if(!empty($ROUTE[$index][1])){
 		$ob = (empty($param))? new $ROUTE[$index][1] : new $ROUTE[$index][1]($param);
+
 	}
-	else
+	else 
 		$ob = new Core();
-	include('views/'.$ROUTE[$index][0]);
-}
-else
-{
+		require_once('views/'.$ROUTE[$index][0]);
+	
+	
+} else {
 	echo '<br><br><br><center><h1> ERROR 404 ! URL not found ! </h1><center>';
 }
 
