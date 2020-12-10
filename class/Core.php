@@ -226,7 +226,7 @@ class Core{
 		$mail->isSMTP();                                            // Send using SMTP
 		$mail->Host       = "smtp.gmail.com";                   // Set the SMTP server to send through
 		$mail->Username   = "gmail.com";                     // SMTP username
-		$mail->Password   = 'password';                     // SMTP password
+		$mail->Password   = 'passwordssssss';                     // SMTP password
 									  
 	
 		$mail->Port       = 587; 
