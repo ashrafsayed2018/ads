@@ -47,9 +47,11 @@ class Core{
 	public function loadCities(){
 		$json = json_decode(file_get_contents('assets/cities.json'));
 		foreach ($json as $key => $value) {
+			// echo $this->data['ad']['location'];
 			echo '<optgroup label="'.$key.'" value="'.$key.'">';
 				foreach ($value as $city) {
-					if(isset($this->data['ad']['location']) && $this->data['ad']['location']== $city)
+				
+					if($this->formValue('location') == $city)
 						echo '<option value="'.$city.'" selected>'.$city.'</option>';
 					else
 						echo '<option value="'.$city.'">'.$city.'</option>';
@@ -225,8 +227,8 @@ class Core{
 		// $mail->SMTPDebug = 1; 
 		$mail->isSMTP();                                            // Send using SMTP
 		$mail->Host       = "smtp.gmail.com";                   // Set the SMTP server to send through
-		$mail->Username   = "gmail.com";                     // SMTP username
-		$mail->Password   = 'passwordssssss';                     // SMTP password
+		$mail->Username   = "ashrafsayed19841111@gmail.com";                     // SMTP username
+		$mail->Password   = '198411112021';                     // SMTP password
 									  
 	
 		$mail->Port       = 587; 
@@ -250,7 +252,7 @@ class Core{
 		$mail->AltBody = $msg;
 	
 		$mail->send();
-			echo 'تم ارسال رساله لبريدك الالكتروني ';
+		
 		} catch (Exception $e) {
 			echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 		}

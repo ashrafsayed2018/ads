@@ -2,6 +2,8 @@
 class Dashboard extends Core{
 	public $data = array();
 
+	public $errors = [];
+
 	function __construct(){
 		parent::__construct();
 		$this->auth();
@@ -127,8 +129,54 @@ class Dashboard extends Core{
 			$price = $_POST['price'];
 			$description = $_POST['description'];
 			$mobile = $_POST['mobile'];
-			$address = $_POST['address'];
+			// $address = $_POST['address'];
 			$location = $_POST['location'];
+
+			if(empty($title)) {
+				$errors[] = "عنوان الاعلان يجب ان لا يكون فارغ   ";
+				
+			}
+
+			if(!empty($title) && mb_strlen($title) > 40 ) {
+				$errors[] = "عنوان الاعلان يجب ان لا يزيد عن 40 حرف";
+			}
+			if(!empty($title) && mb_strlen($title) < 10 ) {
+				$errors[] = "عنوان الاعلان يجب ان لا يقل عن 10 احرف";
+			}
+
+			if(empty($cat_id)) {
+				$errors[] = "فئة الاعلان يجب ان لا يكون فارغ ";
+				
+			}
+
+
+			if(empty($description)) {
+				$errors[] = "وصف الاعلان يجب ان لا يكون فارغ";
+				
+			}
+
+			if(!empty($description) && mb_strlen($description) > 400 ) {
+				$errors[] = "وصف الاعلان يجب ان لا يزيد عن 400 حرف";
+			}
+			if(!empty($description) && mb_strlen($description) < 50 ) {
+				$errors[] = "وصف الاعلان يجب ان لا يقل عن 50 احرف";
+			}
+
+			if(empty($mobile)) {
+				$errors[] = " رقم الجوال يجب ان لا يكون فارغ";
+				
+			}
+
+			if(empty($location)) {
+				$errors[] = "  منطقة الاعلان يجب ان لا يكون فارغ";
+				
+			}
+
+
+			if(empty($cat_id)) {
+				$errors[] = "يجب اختيار فئه";
+				
+			}
 		 	// $specification = json_encode($_POST['spec']);
 			$features = (isset($_POST['features'])) ? json_encode($_POST['features']) : json_encode(array());
 			$user_id = $user['id'];
@@ -151,13 +199,41 @@ class Dashboard extends Core{
 				}
 			}
 
+		
+			if(count($images) == 0) {
+				$errors[] = "يجب تحميل صور للاعلان";
+			}
+
+			if(count($images) > 4) {
+				$errors[] = "يجب تحميل 4 صور على الاكثر للاعلان";
+			}
+			if(count($images) != 0 && count($images) <= 4) {
+				$_SESSION['images'] = $images;
+			} else {
+				$_SESSION['images'] = [];
+			}
+		
 			$image = json_encode($images);
-			$query = "INSERT INTO `ads` SET `title`='$title', `cat_id`='$cat_id', `user_id`='$user_id', `price`='$price', `description`='$description', `mobile`='$mobile', `address`='$address', `location`='$location', `feature`='$features', `images`='$image', `dt`='$dt'";
-			$stmt = $this->conn->prepare($query);
-			if($stmt->execute())
-				$this->data['error'][] = 'تم اضافة الاعلان بنجاح وبانتظار المراجعه';
-			else
-				die("SQL ERROR : ".$this->sqlError());
+
+			if(empty($errors)) {
+
+				
+				$query = "INSERT INTO `ads` SET `title`='$title', `cat_id`='$cat_id', `user_id`='$user_id', `price`='$price', `description`='$description', `mobile`='$mobile', `location`='$location',`images`='$image', `dt`='$dt'";
+				$stmt = $this->conn->prepare($query);
+				if($stmt->execute()) {
+					$this->data['error'][] = 'تم اضافة الاعلان بنجاح وبانتظار المراجعه';
+					unset($_SESSION['images']);
+				} else {
+
+					die("SQL ERROR : ".$this->sqlError());
+				}
+			} else {
+
+				foreach($errors as $error) {
+					echo $this->validation_errors($error);
+				}
+			}
+	
 		}
 		else if(isset($_GET['ad-edit']) && $this->formValue('ad-edit') !='0'){
 			//EDIT AD

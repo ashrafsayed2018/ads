@@ -10,7 +10,7 @@ $ob->incView($ad['id']);
                         <tr>
                            <td>
                               <span class="adDate">
-                                  <span>&#128336;</span> التاريخ : <?php echo date('d - M - Y',strtotime($ad['dt']));?>
+                                  <span>&#128336;</span> التاريخ : <?php echo date('Y - m - d ');?>
                               </span>
                            </td>
                            <td>
@@ -48,7 +48,9 @@ $ob->incView($ad['id']);
                             foreach ($images as $image) {
                               echo '
                               <div class="">
-                                  <a target="_blank" href="'.$image.'"><img src="'.$image.'"></a>
+                                  <a target="_blank" href="'.$image.'"><img src="'.$image.'" style="display: inline-block;
+                                  width: 480px;
+                                  height: 380px;"></a>
                               </div>';
                             }
                           ?>
@@ -62,18 +64,20 @@ $ob->incView($ad['id']);
                                 <p class="text-right"> معلومات الاتصال </p>
                                 <ul class="list-unstyled text-right pr-3 pl-3">
                                   <li>
-                                    <div class="">رقم المعلن  </div>
-                                     <a href="tel:<?php echo $ad['mobile' ];?> "> <?php echo $ad['mobile' ];?> 
+                                    <span class="">رقم المعلن : </span>
+                                     <a class="btn btn-danger text-light" href="tel:<?php echo $ad['mobile' ];?> "> <?php echo $ad['mobile' ];?> 
                                   </a>
                                   </li>
                                   <li>
-                                    <div class="text-right">العنوان  </div> 
-                                    <div class="span"> <?php echo $ad['address'];?> </div>
+                                    <span class="text-right">العنوان :</span> 
+                                    <span class="span"> <?php echo $ad['location'];?> </span>
                                   </li>
                                 </ul>
                               <div class="description text-right">
-                                <div class="text-right"> الوصف  </div>
+                                <div class="text-right"  style="padding: 1rem"> الوصف  </div>
+                                <p style="padding: 1rem">
                                 <?php echo $ad['description'];?>
+                                </p>
                               </div>
                     </div>
                 </div>

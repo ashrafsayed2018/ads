@@ -1,4 +1,6 @@
-<?php require_once 'header.php'; ?>
+<?php require_once 'header.php';
+
+?>
 
 <div class="container">
    <div class="row">
@@ -47,54 +49,67 @@
 							<div class="form">
 								<form action="" method="POST" class="profile-form" 	enctype="multipart/form-data">
 
-									<?php
-										if(isset($ob->data['error']) && !empty($ob->data['error'])){
-											foreach ($ob->data['error'] as $error) {
-												echo '<div style="color:#00FF00;padding:5px">'.$error.'</div>';
-											}
-										}
-									?>
-
 										<strong>تفاصيل الاعلان : </strong><br>
 										<div class="group">
-											<input type="text" name="title" placeholder="العنوان" value="<?php echo (isset($ob->data['ad']['title']))?$ob->data['ad']['title']:'';?>" class="input" required>
+											<input type="text" name="title" placeholder="العنوان" value="<?php echo $ob->formValue('title'); ?>" class="input" >
 
 										</div>
 										<div class="group">
 											
 											<select id="category" name="category" class="input form-control" style="font-size:14.1px;">
+											<option value="">الفئه</option>
+						
 												<?php
 													$cate = $ob->getCategories();
 													while($category = $cate->fetch(PDO::FETCH_ASSOC)){
-														if(isset($ob->data['ad']['cat_id']) && $category['id']==$ob->data['ad']['cat_id'])
-															echo '<option value="'.$category['id'].'" selected>'.$category['name'].'</option>';
-														else
-															echo '<option value="'.$category['id'].'">'.$category['name'].'</option>';
+
+														if($ob->formValue('category') == $category['id']) {
+															echo "<option value='" .$category['id']."' selected>".$category['name']."</option>";
+														} else {
+															echo "<option value='" .$category['id']."'>".$category['name']."</option>";
+														}
+												
 													}
 												?>
 											</select>
 										</div>
 										<div class="group">
 											
-											<input type="number" name="price" placeholder="السعر" value="<?php echo (isset($ob->data['ad']['price']))?$ob->data['ad']['price']:'';?>" step="10" class="input" required>
+											<input type="number" name="price" placeholder="السعر" value="<?php echo $ob->formValue('price'); ?>" step="10" class="input" id="number">
 											
 										</div>
 										<div class="group">
-											<input type="file" name="images[]" placeholder="الصور" class="input" style="font-size:11px;border-bottom:0px;" multiple="multiple">
+
+										<label for="number" class="text-center form-control">اضافة صوره مسموح باربعة صور على الاكثر</label>
+											<input type="file" name="images[]" placeholder="الصور" class="input" style="font-size:11px;border-bottom:0px;" multiple="multiple" value="">
 
 										</div>
-										<textarea name="description" placeholder="الوصف" class="input form-control"><?php echo (isset($ob->data['ad']['description']))?$ob->data['ad']['description']:'';?></textarea>
 										<div class="group">
-											
-											<input type="text" name="mobile" value="<?php echo (isset($ob->data['ad']['mobile']))?$ob->data['ad']['mobile']:'';?>" placeholder="رقم الموبايل" class="input" required>
+										<?php
+											if(isset($_SESSION['images'])) {
+												$images = $_SESSION['images'];
+												foreach ($images as $image) {
+													echo '
+													
+														<span style="display:inline-block;width:80px"><img src="'.$image.'" style="width: 100%;
+														height: 60px;"></span>
+													';
+													}
+
+											}
+										
+										?>
 										</div>
+										<textarea name="description" placeholder="الوصف" class="input form-control"><?php echo $ob->formValue('description');?></textarea>
 										<div class="group">
-											
-											<input type="text" name="address" value="<?php echo (isset($ob->data['ad']['address']))?$ob->data['ad']['address']:'';?>" placeholder="العنوان" class="input" required>
+										
+											<input type="text" name="mobile" value="<?php echo $ob->formValue('mobile');?>" placeholder="رقم الموبايل" class="input" >
 										</div>
+									
 										<div class="group">
 										
 											<select name="location" class="input form-control" style="font-size:14.1px;">
+											<option value="">المنطقه</option>
 												<?php
 													$ob->loadCities();
 												?>
@@ -103,9 +118,6 @@
 										<button type="submit"><?php echo ($_GET['ad-edit'] == 0)? 'نشر' : 'تحديث';?> الاعلان</button>
 								</form>
 							</div>
-					
-
-
 
 							<?php
 							}

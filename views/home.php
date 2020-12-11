@@ -50,6 +50,7 @@
                             </div>
                             <div class="col-12 col-md-2 mb-2">
                               <select name="category" id="select" class="form-control">
+                                  <option value="">اختر التصنيف </option>
                                 <?php
                                     $cate = $ob->getCategories();
                                     

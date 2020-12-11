@@ -23,12 +23,10 @@ class Home extends Core{
 
 
 	private function signup(){
-		// $this->data['error'] = array();
-		if($this->formSubmit('signup')){
-
-
 		
-			
+
+			if($this->formSubmit('signup')) {
+
 			$name = $this->formValue('name',true);
 			$email = $this->formValue('email',true);
 			$password = $this->formValue('password',true);
@@ -83,8 +81,7 @@ class Home extends Core{
 				foreach($this->errors as $error) {
                            
 					echo $this->validation_errors($error);
-	
-					 
+
 					}
 				
 			 }
