@@ -227,8 +227,8 @@ class Core{
 		// $mail->SMTPDebug = 1; 
 		$mail->isSMTP();                                            // Send using SMTP
 		$mail->Host       = "smtp.gmail.com";                   // Set the SMTP server to send through
-		$mail->Username   = "ashrafsayed19841111@gmail.com";                     // SMTP username
-		$mail->Password   = '198411112021';                     // SMTP password
+		$mail->Username   = "rawjly2021@gmail.com";                     // SMTP username
+		$mail->Password   = 'rawjlywebsite2021';                     // SMTP password
 									  
 	
 		$mail->Port       = 587; 
@@ -241,7 +241,7 @@ class Core{
 		$mail->CharSet = "UTF-8";
 	
 		//Recipients
-		$mail->setFrom('from@ashrafsayed.com', 'ashraf sayed');
+		$mail->setFrom('rawjly@rawjly.com', 'rawjly.com');
 		$mail->addAddress($email,'ashraf sayed');     // Add a recipient
 	
 	

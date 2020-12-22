@@ -23,32 +23,6 @@ class Dashboard extends Core{
 		$this->listAds();
 	}
 
-	// public function loadSpecification(){
-	// 	$spec = array(
-	// 		'Electronics' => array('Condition','Type'),
-	// 		'Fashion' => array('Name','Type','Color','Condition'),
-	// 		'Furniture' => array('Condition','Type'),
-	// 		'Mobiles' => array('Condition','Model','Brand','Memory','Camera'),
-	// 		'Real Estate' => array('Purpose','Condition','Size','Type'),
-	// 		'Vehicles' => array('Color','Condition','Type','Model')
-	// 	);
-
-	// 	return $spec;
-	// }
-
-	// public function loadFeature(){
-	// 	$feature = array(
-	// 		'Electronics' => array('charger','waterproof'),
-	// 		'Fashion' => array('male','female'),
-	// 		'Furniture' => array('wooden','steel','folding'),
-	// 		'Mobiles' => array('Touchscreen','3G /4G LTE','Memory card','Built-in camera','Auto focus','Built-in flash','Video recorder','Bluetooth','Wi-Fi','Dual SIM','USB','Media sharing'),
-	// 		'Real Estate' => array('Air Conditioning','Swimming Pool','Dryer','Washer','Gym','WiFi'),
-	// 		'Vehicles' => array('Air Bags','Power Window','Power Stering')
-	// 	);
-
-	// 	return $feature;
-	// }
-
 	public function getCount($type='1'){
 		$user = $this->data['user'];
 		$id = $user['id'];
@@ -126,11 +100,10 @@ class Dashboard extends Core{
 			//ADD  NEW AD
 			$title = $_POST['title'];
 			$cat_id = $_POST['category'];
-			$price = $_POST['price'];
 			$description = $_POST['description'];
 			$mobile = $_POST['mobile'];
-			// $address = $_POST['address'];
 			$location = $_POST['location'];
+			
 
 			if(empty($title)) {
 				$errors[] = "عنوان الاعلان يجب ان لا يكون فارغ   ";
@@ -177,7 +150,6 @@ class Dashboard extends Core{
 				$errors[] = "يجب اختيار فئه";
 				
 			}
-		 	// $specification = json_encode($_POST['spec']);
 			$features = (isset($_POST['features'])) ? json_encode($_POST['features']) : json_encode(array());
 			$user_id = $user['id'];
 			$images = array();
@@ -218,11 +190,15 @@ class Dashboard extends Core{
 			if(empty($errors)) {
 
 				
-				$query = "INSERT INTO `ads` SET `title`='$title', `cat_id`='$cat_id', `user_id`='$user_id', `price`='$price', `description`='$description', `mobile`='$mobile', `location`='$location',`images`='$image', `dt`='$dt'";
+				$query = "INSERT INTO `ads` SET `title`='$title', `cat_id`='$cat_id', `user_id`='$user_id', `description`='$description', `mobile`='$mobile', `location`='$location',`images`='$image', `dt`='$dt'";
 				$stmt = $this->conn->prepare($query);
 				if($stmt->execute()) {
-					$this->data['error'][] = 'تم اضافة الاعلان بنجاح وبانتظار المراجعه';
+
 					unset($_SESSION['images']);
+					
+					$_SESSION['message'] = '<p class="alert alert-success">تم اضافة الاعلان بنجاح وبانتظار المراجعه</p>';
+					
+					header("Location:dashboard");
 				} else {
 
 					die("SQL ERROR : ".$this->sqlError());
@@ -242,12 +218,9 @@ class Dashboard extends Core{
 			if($this->formSubmit('post')){
 				$title = $_POST['title'];
 				$cat_id = $_POST['category'];
-				$price = $_POST['price'];
 				$description = $_POST['description'];
 				$mobile = $_POST['mobile'];
-				$address = $_POST['address'];
 				$location = $_POST['location'];
-		    	// $specification = json_encode($_POST['spec']);
 				$features = (isset($_POST['features'])) ?json_encode($_POST['features']) :json_encode(array());
 				$user_id = $user['id'];
 				$images = array();
@@ -273,7 +246,7 @@ class Dashboard extends Core{
 				else{
 					$image = $this->data['ad']['images'];
 				}
-				$query = "UPDATE `ads` SET `title`='$title', `cat_id`='$cat_id', `user_id`='$user_id', `price`='$price', `description`='$description', `mobile`='$mobile', `address`='$address', `location`='$location', `specification`='$specification', `feature`='$features', `images`='$image', `dt`='$dt' WHERE `id`='$post_id'";
+				$query = "UPDATE `ads` SET `title`='$title', `cat_id`='$cat_id', `user_id`='$user_id', `description`='$description', `mobile`='$mobile',  `location`='$location', `specification`='$specification', `feature`='$features', `images`='$image', `dt`='$dt' WHERE `id`='$post_id'";
 				$stmt = $this->conn->prepare($query);
 				if($stmt->execute())
 					$this->data['error'][] = 'تم تعديل الاعلان بنجاح';
@@ -316,15 +289,15 @@ class Dashboard extends Core{
 		if($this->formValue('edit-profile') && $this->formSubmit('post')){
 			$id = $user['id'];
 			$email = $_POST['email'];
-			$name = $_POST['name'];
+			$username = $_POST['username'];
 			$opassword = $_POST['opassword'];
 			$npassword = $_POST['npassword'];
 			$cpassword = $_POST['cpassword'];
 			if(!empty($npassword) && $opassword==$user['password'] && $npassword==$cpassword){
 				$this->query("UPDATE `users` SET `password`='$npassword' WHERE `email`='$email'");
 			}
-			if($email != $user['email'] || $name != $user['name']){
-				$query = "UPDATE `users` SET `email`='$email',`name`='$name' WHERE `id`='$id'";
+			if($email != $user['email'] || $username != $user['username']){
+				$query = "UPDATE `users` SET `email`='$email',`username`='$username' WHERE `id`='$id'";
 				$stmt = $this->conn->prepare($query);
 				if($stmt->execute())
 				$_SESSION['email'] = $email;

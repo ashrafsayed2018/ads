@@ -27,13 +27,14 @@ class Home extends Core{
 
 			if($this->formSubmit('signup')) {
 
-			$name = $this->formValue('name',true);
+			$username = $this->formValue('username',true);
 			$email = $this->formValue('email',true);
 			$password = $this->formValue('password',true);
 			$cpassword = $this->formValue('cpassword',true);
+
 			// encrypt password 
  
-			if(mb_strlen($password) < 8)  {
+			if(mb_strlen($password) <8)  {
 				$this->errors[] = 'الرقم السري يجب ان لا يقل عن 8 احرف';
 			
 			}
@@ -46,37 +47,53 @@ class Home extends Core{
 
 			$password = md5($password);
 
-			$query = "SELECT * FROM `users` WHERE `name` = '$name' AND `email`='$email'";
+			$query = "SELECT * FROM `users` WHERE  `email`='$email'";
 			$stmt = $this->query($query);
 			$stmt->execute();
-			
 
-			if($stmt->rowCount() > 0) {
-				$this->errors[] = 'هذا الايميل او اسم المستخدم  مستخدم بالفعل';
+			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+			$db_username = $result['username'];
 			
+			$active  = $result['active'];
+
+
+		
+
+			if($stmt->rowCount() > 0 || $username == $db_username) {
+				$this->errors[] = 'هذا الايميل او اسم المستخدم  مستخدم بالفعل';
+
 
 			}
+
+		
+
+	
 			if(empty($this->errors)){
+
 
 			   $validation_code = $this->token_generator();
 
 			   
-			   $query = "INSERT INTO users (email,password,name,validation_code,active) VALUES('$email','$password','$name' ,'$validation_code',0) ";
+			   $query = "INSERT INTO users (email, username, password, validation_code,active) VALUES('$email','$username','$password','$validation_code',0)";
 			   $stmt = $this->query($query);
+		
 			   $stmt->execute();
-				
 					
 			   $_SESSION['email'] = $email;
 
-				$subject = "ashraf@gmail.com";
-				$msg     = "
-				الرجاء الضغط على اللينك لتفعيل حسابك على الموقع
-				<a href='ads.local/activate?email=$email&code=$validation_code'>تفعيل حسابك على موقع روجلى </a>";
-				$headers = "from : ashraf@e3lanat.com";
-				 $this->send_email($email,$subject,$msg,$headers);
-			
-
+				$subject = "rawjly@rawjly.com";
+				$msg     = "<div style='background-color: #fff;height:auto;width:100%;max-width:500px;margin: 0 auto; border: 1px solid #50597b'>
+				<h3 style='text-align:center; color: #50597b '>لقد قمت بتسحيل دخول حساب جديد على موقع روجلى</h3>
+				<p style='text-align:center; color: #50597b'>				     <a href='ads.local/activate?email=$email&code=$validation_code'>تفعيل حسابك على موقع روجلى </a>الرجاء الضغط على اللينك لتفعيل حسابك على  الموقع
+			  </p>
 				
+			  </div>";
+				$headers = "from : rawjly@rawjly.com";
+				 $this->send_email($email,$subject,$msg,$headers);
+
+				   $this->set_messages("<div class='alert alert-success text-center'>تم ارسال رسالة تفعيل حسابك لبريدك الالكتروني </div>");
+
 			 } else {
 				foreach($this->errors as $error) {
                            
@@ -99,18 +116,21 @@ private function login(){
 		$query = ("SELECT * FROM `users` WHERE `email`='$email' AND `active`= 1 AND password ='$hash_password'");
 		$user = $this->query($query);
 		$user->execute();
+
+
 		
 		if($user->rowCount() > 0){
 			
 			$userData = $user->fetch(PDO::FETCH_ASSOC);
 
 			$db_password = $userData['password'];
+
 			$password = md5($password);
 
 			if($password == $db_password) {
 				$_SESSION['email'] = $userData['email'];
 			
-			 $this->redirect('/dashboard',true);
+			 $this->redirect('/dashboard/?ad-edit=0',true);
 			} else {
 				$this->errors[] = 'هناك خظاء في تسجيل الدخول ';
 
@@ -167,13 +187,15 @@ private function login(){
 					  echo "no updates";
 				  }
 	
-				  $subject = "ashraf@gmail.com";
-				  $msg     = "Here is your passowrd reset code
-				  <strong style='color:green'>$validation_code</strong> 
-				   Click her to reset  your password 
-				   <a href='ads.local/code?email=$email&code=$validation_code'> click to rest your password </a>";
+				  $subject = "rawjly@rawjly.com";
+				  $msg     = "<div style='background-color: #fff;height:auto;width:100%;max-width:500px;margin: 0 auto; border: 1px solid #50597b'>
+				  <h3 style='text-align:center; color: #50597b '> لقد قمت بطلب تغيير الرقم السري الخاص بحسابك على موقع روجلى</h3>
+				  <p style='text-align:center; color: #50597b'>				     <a href='ads.local/code?email=$email&code=$validation_code'>تغيير الرقم السري  لحسابك    </a>الرجاء الضغط على اللينك لتغيير الرقم السري  لحسابك على  الموقع
+				</p>
+				  
+				</div>";
 	
-				  $headers = "from : ashraf@e3lanat.com";
+				  $headers = "from : rawjly@rawjly.com";
 	
 				 $this->send_email($email,$subject,$msg,$headers);
 	
@@ -190,14 +212,14 @@ private function login(){
 	
 		  
 			} else {
-				// header('Location:index.php');
+				//$this->redirect('index');
 			}
 		}
 	
 		// if the user click on cancel button 
 	
 		if(isset($_POST['cancel_submit'])) {
-			// header('Location:login.php');
+			$this->redirect('login');
 		}
 	}
 

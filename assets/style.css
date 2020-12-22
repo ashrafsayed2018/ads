@@ -9,7 +9,9 @@
     --dark-background: #394264;
     --dark-background-hover: #50597b;
 }
-
+body,html {
+  overflow-x: hidden
+}
 /* start the navbar  */
 
 .navbar-light .navbar-nav .nav-link:hover {
@@ -22,11 +24,6 @@
 /* start the site header */
 .main-header {
     height: 600px;
-    /* width: 100%;
-    background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTV9zADlfT0YQ_vuvx8ODXDcBecyf_7_I7Nmg&usqp=CAU');
-    background-repeat: no-repeat;
-    background-position: top;
-    background-size: 100% 100%; */
     position: relative;
     overflow: hidden;
     color: #fff
@@ -269,7 +266,8 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
     padding: 2rem 0 ;
-    color :#fff
+    color :#fff;
+ 
 }
 .social-accounts ul li {
     display: inline-block;
@@ -279,7 +277,7 @@
 /* end footer  */
 
 /* start login page  */
-.login-form,.register-form,.profile-form {
+.login-form,.register-form,.profile-form  {
   position: relative;
   z-index: 1;
   background: #FFFFFF;
@@ -287,34 +285,37 @@
   margin: 2rem auto;
   padding: 45px;
   text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border: 1px solid #80ced7;
 }
-.profile-form {
+.profile-form,.ad-form {
   min-width:100%!important;
   margin: 0 auto 2rem auto;
+  border: 1px solid #80ced7;
 
 }
-.login-form input, .register-form input ,.profile-form input{
+.login-form input, .register-form input ,.profile-form input,.ad-form input{
   font-family: "Roboto", sans-serif;
   outline: 0;
-  background: #f2f2f2;
+  border: 1px solid #80ced7;
   width: 100%;
-  border: 0;
   margin: 0 0 15px;
   padding: 15px;
   box-sizing: border-box;
   font-size: 14px;
 }
-.login-form button , .register-form button, .profile-form button{
+input[type="file"] {
+  display: none;
+}
+.login-form button , .register-form button, .profile-form button,.ad-form button{
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
   background: #4CAF50;
   width: 100%;
   border: 0;
-  padding: 15px;
+  padding: 10px;
   color: #FFFFFF;
-  font-size: 14px;
+  font-size: 18px;
   -webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;
   cursor: pointer;
@@ -328,13 +329,13 @@
 .register-form .message ,
 .profile-form .message{
   margin: 15px 0 0;
-  color: #b3b3b3;
+  color: #582323;
   font-size: 12px;
 }
 .login-form .message a,
 .register-form .message a ,
 .profile-form .message a{
-  color: #4CAF50;
+  color: #80ced7!important;
   text-decoration: none;
 }
 /* end login page */
@@ -371,14 +372,13 @@
   bottom: 30px;
   right: 7%;
   }
-  @media (max-width: 500px) {
-    .profile-options {
-      right: 17%;
-      }
-  }
+
   @media (max-width: 670px) {
     .profile-options {
-      right: 22%;
+    display: flex;
+    position: relative;
+    bottom: 0;
+    right: 0;
       }
   }
   @media (min-width: 671px) and (max-width: 1200px) {
@@ -479,5 +479,13 @@ a,a:hover,a:focus {
   visibility: hidden;
   transition: all 1s;
 }
-
+.password {
+  position: relative;
+}
+.toggle-password {
+  position: absolute;
+  bottom: 40%;
+  left: 5px;
+  cursor: pointer
+}
 

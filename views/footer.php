@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="col-12 col-md-6">
-                      <div class="copyright text-center">جميع الحقوق محفوظه لموقع سوقلي شكرا &copy; <span class="copy-year">2020</span> &reg;</div>
+                      <div class="copyright text-center">جميع الحقوق محفوظه لموقع روجلى &copy; <span class="copy-year">2020</span> &reg;</div>
                     </div>
 
                   </div>

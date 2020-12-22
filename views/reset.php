@@ -31,10 +31,16 @@ require_once "header.php";
 								<form id="register-form" method="post" role="form" >
 
 									<div class="form-group">
-										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="الرقم السري" >
+									     <div class="password">
+											<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="الرقم السري" >
+											<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+										 </div>
 									</div>
 									<div class="form-group">
-										<input type="password" name="confirm_password" id="confirm-password" tabindex="2" class="form-control" placeholder="تأكيد الرقم السري" >
+										<div class="password">
+											<input type="password" name="confirm_password" id="confirm-password" tabindex="2" class="form-control" placeholder="تأكيد الرقم السري" >
+											<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+										</div>
 									</div>
 									<div class="form-group">
 									<input type="hidden" class="hide" name="token" id="token" value="<?php echo $ob->token_generator()?>">

@@ -37,10 +37,24 @@
                
 
                     <div class="slogans">
-                        <h1>موقع سوقلى </h1>
+                        <h1>موقع روجلى </h1>
                         <h2>  اشتري وبيع واعلن عن كل شئ</h2>
                         <div class="slogan3">بيع -اشتري - خدمات - اشياء حديثه - اشياء قديمه </div>
-                        <a href="/dashboard/?ad-edit=0"><div class="postAds"><span>اعلان</span> جديد</div></a>
+                          <a href="/dashboard/?ad-edit=0"><div class="postAds">
+                          <span style="color:white">
+                              
+                              <?php
+                              if(isset($_SESSION['email'])) {
+                                  echo "<a href='dashboard/?ad-edit=0' style='text-decoration:none;color:#fff!important'>اضافة اعلان مجاني</a>";
+                              } else {
+                                  
+                                  echo "<a href='login' style='text-decoration:none;color:#fff!important'>اضافة اعلان مجاني</a>";
+                              }
+                              ?>
+                               </span>
+                          </a>
+                      </div>
+                       
                     </div>
                     <div class="top-form-wrapper mt-5">
                       <form action="/search/1" method="POST">

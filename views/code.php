@@ -26,21 +26,23 @@ require_once "header.php";
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-12">
-									<div class="text-center"><h2><b> تم ادخال الكود اضغط على زر متابعه لتغيير رقمك السري</b></h2></div>
-									<form id="register-form"  method="post" role="form" autocomplete="off">
+									<div class="text-center"><h2><b> تم ادخال الكود اضغط على زر متابعه  </b></h2></div>
+									<form id="register-form"  action="" method="post" role="form" autocomplete="off">
 										<div class="form-group">
-											<input type="text" name="code" id="code" tabindex="1" class="form-control" placeholder="##########" value="<?php echo $_GET['code']; ?>" autocomplete="off" required/>
+											<input type="text" name="code" id="code" tabindex="1" class="form-control" disabled value="<?php echo $_GET['code']; ?>" autocomplete="off" required/>
 										</div>
 										<div class="form-group">
 											<div class="row">
 
-												<div class="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-2  col-xs-6">
-													<input type="submit" name="code-cancel" id="code-cancel" tabindex="2" class="form-control btn btn-danger" value="الغاء" />
-			
-												</div>
 												<div class="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-2 col-xs-6">
 													<input type="submit" name="code_submit" id="recover-submit" tabindex="2" class="form-control btn btn-success" value="متابعه" />
 													
+												</div>
+
+												
+												<div class="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-2  col-xs-6">
+													<input type="submit" name="code-cancel" id="code-cancel" tabindex="2" class="form-control btn btn-danger" value="الغاء" />
+			
 												</div>
 
 											</div>

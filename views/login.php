@@ -29,7 +29,7 @@
 						}
 						else{
 							?>
-					<div class="text-center text-success mb-5">دخول</div>
+					<h2 class="text-center text-info mb-2">دخول</h2>
 						<?php
 							if(isset($ob->data['error']) && !empty($ob->data['error'])){
 								foreach ($ob->data['error'] as $error) {
@@ -40,7 +40,10 @@
                         <form class="login-form" action="" method="POST" class="mb-5">
                    
                        <input class="input" type="text" name="email" value="<?php echo $ob->formValue('email');?>" placeholder="البريد الالكتروني">
-						<input class="input" type="password" name="password" value="<?php echo $ob->formValue('password');?>" placeholder="الرقم السري" required>
+					   <div class="password">
+							<input class="input" type="password" name="password" value="<?php echo $ob->formValue('password');?>" placeholder="الرقم السري" required autocomplete="new-password">
+							<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+					   </div>
 						<a href="/login/?forget=1"> نسيت الرقم السري ؟ </a> <br><br>
 						<button type="submit" name="login"> دخول </button>
                         <p class="message">ليس لديك حساب ؟ <a href="/register">تسجيل حساب </a></p>

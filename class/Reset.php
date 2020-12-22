@@ -41,7 +41,6 @@ class Reset extends Core {
                         } else {
                             $updated_password = md5($password);
 
-                            echo $updated_password;
 
                             
     
@@ -54,7 +53,7 @@ class Reset extends Core {
     
                             $this->set_messages("<p class='alert alert-success text-center' > تم تحديث الرقم السري الرجاء تسجيل الدخول </p>");
     
-                            //  header('location:login');
+                             $this->redirect('login');
     
     
                         }
@@ -67,7 +66,7 @@ class Reset extends Core {
     
             $this->set_messages("<p class='alert alert-danger text-center' > ناسف اعد ارسال الايميل مره اخرى</p>");
     
-            //  header('location:recover');
+             $this->redirect('recover');
         }
     }
    

@@ -7,34 +7,36 @@
        <div class="col col-md-8">
 
         <?php
+		echo $ob->display_message();
+
 							if(isset($_GET['edit-profile'])){
 							?>
 							<div class="form" >
 							<form action="" method="POST" enctype="multipart/form-data" class="profile-form">
 									<div class="group">
 										
-										<input type="email" name="email" placeholder="Email" value="<?php echo $ob->data['user']['email'];?>" class="input">
+										<input type="email" name="email" placeholder="Email" value="<?php echo $ob->data['user']['email'];?>" class="input" required>
 									</div>
 									<div class="group">
 									
-										<input type="text" name="name" placeholder="Name" value="<?php echo $ob->data['user']['name'];?>" class="input">
+										<input type="text" name="username" placeholder="الاسم " value="<?php echo $ob->data['user']['username'];?>" class="input" required>
 									</div>
 									يمكنك ترك الحقول فارغه اذا اردت عدم تغييرها
 									<div class="group">
 										
-										<input type="file" name="picture" accept="image/*" placeholder="Picture" class="input" style="font-size:11px;border-bottom:0px;">
+										<input type="file" name="picture" accept="image/*" placeholder="Picture" class="input" style="font-size:11px;border-bottom:0px;" required>
 									</div>
 									<div class="group">
 										
-										<input type="password" name="opassword" placeholder="الرقم السري الحالي" class="input">
+										<input type="password" name="opassword" placeholder="الرقم السري الحالي" class="input" required>
 									</div>
 									<div class="group">
 										
-										<input type="password" name="npassword" placeholder="الرقم السري الجديد" class="input">
+										<input type="password" name="npassword" placeholder="الرقم السري الجديد" class="input" required>
 									</div>
 									<div class="group">
 										
-										<input type="password" name="cpassword" placeholder="تأكيد الرقم السري" class="input">
+										<input type="password" name="cpassword" placeholder="تأكيد الرقم السري" class="input" required>
 									</div>
 									<button type="submit">تحديث</button>
 								</form>
@@ -43,20 +45,18 @@
 							<?php
 							}
 							else if(isset($_GET['ad-edit'])){
-								// $spec = $ob->loadSpecification();
-								// $feature = $ob->loadFeature();
 							?>
 							<div class="form">
-								<form action="" method="POST" class="profile-form" 	enctype="multipart/form-data">
+								<form action="" method="POST" class="ad-form" 	enctype="multipart/form-data">
 
-										<strong>تفاصيل الاعلان : </strong><br>
+										<h4 style="text-align:center">تفاصيل الاعلان  </h4><br>
 										<div class="group">
-											<input type="text" name="title" placeholder="العنوان" value="<?php echo $ob->formValue('title'); ?>" class="input" >
+											<input type="text" name="title" placeholder="عنوان الاعلان ( يحب ان لايقل عن 10 حروف ولا يزيد عن 40 حرف )" value="<?php echo $ob->formValue('title'); ?>" class="input" required>
 
 										</div>
 										<div class="group">
 											
-											<select id="category" name="category" class="input form-control" style="font-size:14.1px;">
+											<select id="category" name="category" class="input form-control" style="font-size:14.1px;" required>
 											<option value="">الفئه</option>
 						
 												<?php
@@ -73,15 +73,11 @@
 												?>
 											</select>
 										</div>
-										<div class="group">
-											
-											<input type="number" name="price" placeholder="السعر" value="<?php echo $ob->formValue('price'); ?>" step="10" class="input" id="number">
-											
-										</div>
+								
 										<div class="group">
 
-										<label for="number" class="text-center form-control">اضافة صوره مسموح باربعة صور على الاكثر</label>
-											<input type="file" name="images[]" placeholder="الصور" class="input" style="font-size:11px;border-bottom:0px;" multiple="multiple" value="">
+										<label for="images" class="text-center form-control">اضافة صوره مسموح باربعة صور على الاكثر</label>
+											<input type="file" name="images[]" placeholder="الصور" class="input" style="font-size:11px;border-bottom:0px;" multiple="multiple" value="" id="images">
 
 										</div>
 										<div class="group">
@@ -100,28 +96,29 @@
 										
 										?>
 										</div>
-										<textarea name="description" placeholder="الوصف" class="input form-control"><?php echo $ob->formValue('description');?></textarea>
-										<div class="group">
+										<textarea name="description" placeholder="وصف الاعلان ( يحب ان لايقل عن 50 حرف ولا يزيد عن 400 حرف )" class="input form-control " style="height:300px;resize:none" required><?php echo $ob->formValue('description');?></textarea>
+										<div class="group" >
 										
-											<input type="text" name="mobile" value="<?php echo $ob->formValue('mobile');?>" placeholder="رقم الموبايل" class="input" >
+											<input type="text" name="mobile" value="<?php echo $ob->formValue('mobile');?>" placeholder="رقم الجوال" class="input" required>
 										</div>
 									
 										<div class="group">
 										
-											<select name="location" class="input form-control" style="font-size:14.1px;">
+											<select name="location" class="input form-control" style="font-size:14.1px;" required>
 											<option value="">المنطقه</option>
 												<?php
 													$ob->loadCities();
 												?>
 											</select>
 										</div>
-										<button type="submit"><?php echo ($_GET['ad-edit'] == 0)? 'نشر' : 'تحديث';?> الاعلان</button>
+										<button type="submit"><?php echo ($_GET['ad-edit'] == 0)? 'نشر' : 'تحديث';?> </button>
 								</form>
 							</div>
 
 							<?php
 							}
 							else{
+
 								if($ob->data['user']['admin'] == 1){
 							?>
 							<table class="table">
@@ -184,9 +181,9 @@
                     <div class="profile block"> <!-- PROFILE (MIDDLE-CONTAINER) -->
               
                         <div class="profile-picture big-profile-picture clear">
-                            <img width="150px" alt="<?php echo $ob->data['user']['name'];?>" src="<?php echo $ob->data['user']['dp'];?>" >
+                            <img width="150px" alt="<?php echo $ob->data['user']['username'];?>" src="<?php echo $ob->data['user']['dp'];?>" >
                         </div>
-                        <h1 class="user-name"><?php echo $ob->data['user']['name'];?></h1>
+                        <h1 class="user-name"><?php echo $ob->data['user']['username'];?></h1>
                         <ul class="profile-options horizontal-list">
                             <li>
 								<a class="comments" href="?dashboard">
@@ -196,12 +193,22 @@
                             <li>
 								  <?php 
 								  
-							    if($ob->data['user']['admin'] == 1){
+							    //if($ob->data['user']['admin'] == 1){
+								
 								?>
-								<a class="views" href="?ad-edit=0"> <P> اعلان جديد</P></a>
-								<?php } else { ?>
-								<a class="views" href="?ad-edit=1"> <P>  تحديث الاعلان</P></a>
-								<?php }?>
+								<a class="views" href="?ad-edit=0"> 
+								<P> اعلان جديد</P>
+								</a>
+
+								<?php 
+								// } else { 
+									
+									?>
+
+								<!-- <a class="views" href="?ad-edit=1">
+								 <P>  تحديث الاعلان</P>
+								</a> -->
+								<?php // }?>
 							 </li>
                             <li>
 									<a class="likes" href="?edit-profile=1">

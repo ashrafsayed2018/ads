@@ -50,13 +50,27 @@ $(document).ready(function(){
     } else {
       console.log('no carousel');
     }
+
+    // toggle password 
+
+    $(".toggle-password").click(function() {
+
+       		// console.log("show pass");
+		var pwd = $(this).siblings('input');
+		if(pwd.attr("type")=="password"){
+			pwd.attr("type","text");
+			// console.log("show");
+			// $(this).parent().addClass("show");
+			$(this).removeClass("fa-eye-slash");
+			$(this).addClass("fa-eye");
+		} else {
+			pwd.attr("type","password");
+			$(this).addClass("fa-eye-slash");
+			$(this).removeClass("fa-eye");
+		}
+      });
 });
 
 
-    
-    // if(adFeatureCarousel) {
-
-    
-        // }
 
 

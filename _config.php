@@ -7,5 +7,6 @@ spl_autoload_register(function($class) {
     exit();
   }
     require_once $classUrl;
+    
 });
 ?>
