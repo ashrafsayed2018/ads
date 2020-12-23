@@ -15,7 +15,7 @@ body,html {
 /* start the navbar  */
 
 .navbar-light .navbar-nav .nav-link:hover {
-    color: rgb(14, 12, 12)!important;
+    color: rgb(105, 9, 9)!important;
 }
 .navbar-light .navbar-nav .nav-link[class*="btn-outline"]:hover {
   color : #fff!important;
@@ -283,7 +283,7 @@ body,html {
   background: #FFFFFF;
   max-width: 360px;
   margin: 2rem auto;
-  padding: 45px;
+  padding: 20px 10px;
   text-align: center;
   border: 1px solid #80ced7;
 }

@@ -1,6 +1,5 @@
 <?php require_once 'header.php'; ?>
 
-	<!-- <div class="landing-page"></div> -->
 	<div id="container">
 		<div class="row">
 			<div class="col-lg-6" style="margin: 0 auto">

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" type="text/css" href="../assets/preloader.css" />
 
-    <link rel="stylesheet" href="../../assets/style.css">
+    <link rel="stylesheet" href="../assets/style.css">
     <!-- <link rel="stylesheet" href="/assets/theme.css"> -->
  
 </head>

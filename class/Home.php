@@ -32,9 +32,17 @@ class Home extends Core{
 			$password = $this->formValue('password',true);
 			$cpassword = $this->formValue('cpassword',true);
 
+			if(empty($username)) {
+				$this->errors[] = "<div class='alert alert-danger alert-dismissible'>اسم المستخدم فارغ</div>";
+			}
+
+			if(mb_strlen($username) > 15 || mb_strlen($username) < 2) {
+				$this->errors[] = "<div class='alert alert-danger alert-dismissible'>اسم المستخدم يحب ان لايقل عن حرفين ولا يزيد عن 15 حرف</div>";
+			}
+
 			// encrypt password 
  
-			if(mb_strlen($password) <8)  {
+			if(mb_strlen($password) < 8)  {
 				$this->errors[] = 'الرقم السري يجب ان لا يقل عن 8 احرف';
 			
 			}
@@ -63,12 +71,9 @@ class Home extends Core{
 			if($stmt->rowCount() > 0 || $username == $db_username) {
 				$this->errors[] = 'هذا الايميل او اسم المستخدم  مستخدم بالفعل';
 
-
 			}
 
-		
 
-	
 			if(empty($this->errors)){
 
 

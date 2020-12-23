@@ -7,36 +7,38 @@
        <div class="col col-md-8">
 
         <?php
-		echo $ob->display_message();
+	             echo $ob->display_message();
 
 							if(isset($_GET['edit-profile'])){
+
+								 
 							?>
 							<div class="form" >
 							<form action="" method="POST" enctype="multipart/form-data" class="profile-form">
 									<div class="group">
 										
-										<input type="email" name="email" placeholder="Email" value="<?php echo $ob->data['user']['email'];?>" class="input" required>
+										<input type="email" name="email" placeholder="Email" value="<?php echo $ob->data['user']['email'];?>" class="input">
 									</div>
 									<div class="group">
 									
-										<input type="text" name="username" placeholder="الاسم " value="<?php echo $ob->data['user']['username'];?>" class="input" required>
+										<input type="text" name="username" placeholder="الاسم " value="<?php echo $ob->data['user']['username'];?>" class="input" >
 									</div>
 									يمكنك ترك الحقول فارغه اذا اردت عدم تغييرها
 									<div class="group">
 										
-										<input type="file" name="picture" accept="image/*" placeholder="Picture" class="input" style="font-size:11px;border-bottom:0px;" required>
+										<input type="file" name="picture" accept="image/*" placeholder="Picture" class="input" style="font-size:11px;border-bottom:0px;" >
 									</div>
 									<div class="group">
 										
-										<input type="password" name="opassword" placeholder="الرقم السري الحالي" class="input" required>
+										<input type="password" name="opassword" placeholder="الرقم السري القديم" class="input" >
 									</div>
 									<div class="group">
 										
-										<input type="password" name="npassword" placeholder="الرقم السري الجديد" class="input" required>
+										<input type="password" name="npassword" placeholder="الرقم السري الجديد" class="input" >
 									</div>
 									<div class="group">
 										
-										<input type="password" name="cpassword" placeholder="تأكيد الرقم السري" class="input" required>
+										<input type="password" name="cpassword" placeholder=" تأكيد الرقم السري الجديد" class="input" >
 									</div>
 									<button type="submit">تحديث</button>
 								</form>
@@ -183,7 +185,7 @@
                         <div class="profile-picture big-profile-picture clear">
                             <img width="150px" alt="<?php echo $ob->data['user']['username'];?>" src="<?php echo $ob->data['user']['dp'];?>" >
                         </div>
-                        <h1 class="user-name"><?php echo $ob->data['user']['username'];?></h1>
+                        <strong class="user-name"><?php echo $ob->data['user']['username'];?></strong>
                         <ul class="profile-options horizontal-list">
                             <li>
 								<a class="comments" href="?dashboard">

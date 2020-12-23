@@ -286,38 +286,110 @@ class Dashboard extends Core{
 
 	private function editProfile(){
 		$user = $this->data['user'];
+		$dp   = $user['dp']; // user profile iamge
+	
+	
+	
 		if($this->formValue('edit-profile') && $this->formSubmit('post')){
 			$id = $user['id'];
+			
 			$email = $_POST['email'];
 			$username = $_POST['username'];
 			$opassword = $_POST['opassword'];
 			$npassword = $_POST['npassword'];
 			$cpassword = $_POST['cpassword'];
-			if(!empty($npassword) && $opassword==$user['password'] && $npassword==$cpassword){
-				$this->query("UPDATE `users` SET `password`='$npassword' WHERE `email`='$email'");
-			}
-			if($email != $user['email'] || $username != $user['username']){
-				$query = "UPDATE `users` SET `email`='$email',`username`='$username' WHERE `id`='$id'";
+			$image = $_FILES['picture'];
+
+			$opassword = md5($opassword);
+
+			$new_hashed_pass = md5($npassword);
+
+		
+			if(!empty($npassword) && $opassword == $user['password'] && $npassword == $cpassword){
+
+				$query = "UPDATE `users` SET `password`='$new_hashed_pass' WHERE `email`='$email'";
 				$stmt = $this->conn->prepare($query);
-				if($stmt->execute())
-				$_SESSION['email'] = $email;
+				$stmt->execute();
+				
+				$this->set_messages("<div class='alert alert-success text-center'> تم  تغيير الرقم السري  بنجاح </div>");
+			} elseif(!empty($npassword) && $opassword != $user['password'] || $npassword != $cpassword) {
+				$this->set_messages("<div class='alert alert-danger text-center'> هناك خظاء في تغيير الرقم السري      </div>");
 			}
 
+			if($new_hashed_pass == $user['password']) {
+				$this->set_messages("<div class='alert alert-danger text-center'> الرقم السري الجديد هو نفس الرقم السري القديم الرجاء استعمل رقم سري جديد     </div>");
+			}
+
+			if(!empty($username) && $username != $user['username']) {
+				$query = "UPDATE `users` SET `username`='$username' WHERE `id`='$id'";
+				$stmt = $this->conn->prepare($query);
+				$stmt->execute();
+
+				$this->set_messages("<div class='alert alert-success text-center'> تم  تغيير الاسم  بنجاح </div>");
+
+			} elseif(mb_strlen($username) > 15 || mb_strlen($username) < 2) {
+				$this->set_messages("<div class='alert alert-danger text-center'> هناك خظاء في تغيير  اسم المستخدم      </div>");
+			}
+			if(!empty($email) && $email != $user['email']){
+
+				$validation_code = $this->token_generator();
+				$query = "UPDATE `users` SET `email`='$email',`username`='$username' ,validation_code ='$validation_code', active = 0; WHERE `id`='$id'";
+				$stmt = $this->conn->prepare($query);
+				if($stmt->execute()){
+					
+		
+					$_SESSION['email'] = $email;
+					
+				$subject = "rawjly@rawjly.com";
+				$msg     = "<div style='background-color: #fff;height:auto;width:100%;max-width:500px;margin: 0 auto; border: 1px solid #50597b;height:500px'>
+				<h3 style='text-align:center; color: #50597b '>لقد قمت بتغيير البريد الالكتروني لحسابك  موقع روجلى</h3>
+				<p style='text-align:center; color: #50597b'>				     <a href='ads.local/activate?email=$email&code=$validation_code'>تفعيل حسابك على موقع روجلى </a>الرجاء الضغط على اللينك لتفعيل حسابك على  الموقع
+			  </p>
+				
+			  </div>";
+				$headers = "from : rawjly@rawjly.com";
+				 $this->send_email($email,$subject,$msg,$headers);
+
+				 $this->set_messages("<div class='alert alert-success text-center'> تم  ارسال رابط تفعيل الى البريد الالكتروني  الرجاء الضغط على الرابط لتفعيل الحساب </div>");
+		
+				}
+			
+			}
+			
 			if(!empty($_FILES)){
 				$imageFileType = strtolower(pathinfo($_FILES["picture"]["name"],PATHINFO_EXTENSION));
 				$file_name = $id.'_dp'.strtotime("now").'.'.$imageFileType;
-				$temp_path = '/images/'.$file_name;
+				$temp_path = '/profile_image/'.$file_name;
 				$target_file = $_SERVER['DOCUMENT_ROOT'].$temp_path;
-				$check = getimagesize($_FILES["picture"]["tmp_name"]);
-			    if($check !== false) {
+				 $check = getimagesize($_FILES["picture"]["tmp_name"]);
+		
+			     
+			    if($check) {
+					// delete the old image from the images folder before moving the new one 
+               
+
+				
 			    	if(move_uploaded_file($_FILES["picture"]["tmp_name"], $target_file)){
 						$query = "UPDATE `users` SET `dp`='$temp_path' WHERE `id`='$id'";
 						$stmt = $this->conn->prepare($query);
-						if($stmt->execute())
+						
+						if($stmt->execute()) {
+							if(unlink($target_file.$dp)) {
+								echo "you unlinked";
+							   } else {
+								echo "not  unlinked";
+							   }
+
+							   $this->set_messages("<div class='alert alert-success text-center'> تم تحميل الصوره الجديده بنجاح </div>");
+
+						
+						}
 				        $this->redirect('/dashboard/?edit-profile=1',true);
 				    }
 			    }
 			}
+			
+		
 				$this->redirect('/dashboard/?edit-profile=1',true);
 		}
 	}
